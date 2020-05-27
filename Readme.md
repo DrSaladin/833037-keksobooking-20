@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Vitaly Sdelnikov](https://up.htmlacademy.ru/javascript/20/user/833037).
-* Наставник: `Неизвестно`.
+* Наставник: Святослав Родионов.
 
 ---
 
