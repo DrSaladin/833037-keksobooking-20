@@ -61,13 +61,13 @@ var createCustomerList = function (quantity) {
 };
 
 
-var renderMapPin = function (customerArrElement) {
+var renderMapPin = function (array) {
   var pinElement = pinTemplate.cloneNode(true);
 
-  pinElement.style.left = customerArrElement.location.xLocation + 'px';
-  pinElement.style.top = customerArrElement.location.yLocation + 'px';
-  pinElement.querySelector('img').alt = customerArrElement.offer.title;
-  pinElement.querySelector('img').src = customerArrElement.author.avatar;
+  pinElement.style.left = array.location.xLocation + 'px';
+  pinElement.style.top = array.location.yLocation + 'px';
+  pinElement.querySelector('img').alt = array.offer.title;
+  pinElement.querySelector('img').src = array.author.avatar;
 
   return pinElement;
 };
