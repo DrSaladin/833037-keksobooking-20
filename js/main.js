@@ -2,7 +2,7 @@
 
 var TYPE_POOL = ['palace', 'flat', 'house', 'bungalo'];
 var TIME_POOL = ['12:00', '13:00', '14:00'];
-var DESCRIPTIONS_POOL = ['Норм так', 'Пойдет', 'Гадюшник', 'Клоповник', 'Дворец просто'];
+var DESCRIPTIONS_POOL = ['Текст Один', 'Текст Два', 'Текст Три', 'Текст Четыре', 'Текст Пять'];
 var FEATURES_POOL = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS_POOL = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var customerQuantity = 8;
@@ -61,21 +61,21 @@ var createCustomerList = function (quantity) {
 };
 
 
-var renderMapPin = function (usedArr) {
+var renderMapPin = function (customerArrElement) {
   var pinElement = pinTemplate.cloneNode(true);
 
-  pinElement.style.left = usedArr.location.xLocation + 'px';
-  pinElement.style.top = usedArr.location.yLocation + 'px';
-  pinElement.querySelector('img').alt = usedArr.offer.title;
-  pinElement.querySelector('img').src = usedArr.author.avatar;
+  pinElement.style.left = customerArrElement.location.xLocation + 'px';
+  pinElement.style.top = customerArrElement.location.yLocation + 'px';
+  pinElement.querySelector('img').alt = customerArrElement.offer.title;
+  pinElement.querySelector('img').src = customerArrElement.author.avatar;
 
   return pinElement;
 };
 
-function renderPins(customerArr) {
+function renderPins(array) {
   var fragment = document.createDocumentFragment();
-  for (var i = 0; i < customerArr.length; i++) {
-    fragment.appendChild(renderMapPin(customerArr[i]));
+  for (var i = 0; i < array.length; i++) {
+    fragment.appendChild(renderMapPin(array[i]));
   }
   pinList.appendChild(fragment);
 }
