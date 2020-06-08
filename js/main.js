@@ -49,8 +49,8 @@ var createCustomerList = function (quantity) {
       },
 
       location: {
-        xLocation: getRandomNumber(130, 630),
-        yLocation: getRandomNumber(200, 630),
+        xLocation: getRandomNumber(50, 1150),
+        yLocation: getRandomNumber(130, 630),
       },
 
     };
