@@ -60,8 +60,6 @@ var createCustomerList = function (quantity) {
   return customerList;
 };
 
-console.log(createCustomerList(2));
-
 
 var renderMapPin = function (usedArr) {
   var pinElement = pinTemplate.cloneNode(true);
