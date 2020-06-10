@@ -5,6 +5,9 @@ var TIME_POOL = ['12:00', '13:00', '14:00'];
 var DESCRIPTIONS_POOL = ['Текст Один', 'Текст Два', 'Текст Три', 'Текст Четыре', 'Текст Пять'];
 var FEATURES_POOL = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS_POOL = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+
+var xPinCorrection = 25;
+var yPinCorrection = 70;
 var customerQuantity = 8;
 
 var map = document.querySelector('.map');
@@ -49,8 +52,8 @@ var createCustomerList = function (quantity) {
       },
 
       location: {
-        xLocation: getRandomNumber(0, 1200),
-        yLocation: getRandomNumber(130, 630),
+        x: getRandomNumber(0, 1200),
+        y: getRandomNumber(130, 630),
       },
 
     };
@@ -64,8 +67,8 @@ var createCustomerList = function (quantity) {
 var renderMapPin = function (customer) {
   var pinElement = pinTemplate.cloneNode(true);
 
-  pinElement.style.left = customer.location.xLocation + 25 + 'px';
-  pinElement.style.top = customer.location.yLocation + 70 + 'px';
+  pinElement.style.left = customer.location.x - xPinCorrection + 'px';
+  pinElement.style.top = customer.location.y - yPinCorrection + 'px';
   pinElement.querySelector('img').alt = customer.offer.title;
   pinElement.querySelector('img').src = customer.author.avatar;
 
