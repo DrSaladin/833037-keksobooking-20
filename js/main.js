@@ -64,8 +64,8 @@ var createCustomerList = function (quantity) {
 var renderMapPin = function (customer) {
   var pinElement = pinTemplate.cloneNode(true);
 
-  pinElement.style.left = customer.location.xLocation - 25 + 'px';
-  pinElement.style.top = customer.location.yLocation + 'px';
+  pinElement.style.left = customer.location.xLocation + 25 + 'px';
+  pinElement.style.top = customer.location.yLocation + 70 + 'px';
   pinElement.querySelector('img').alt = customer.offer.title;
   pinElement.querySelector('img').src = customer.author.avatar;
 
