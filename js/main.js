@@ -33,6 +33,8 @@ var mapWidth = parseInt(rawMapWidth, 10);
 var mapHeight = parseInt(rawMapHeight, 10);
 
 
+
+
 var getPinWidth = function () {
   var pinElement = pinTemplate.cloneNode(true);
   var fragment = document.createDocumentFragment();
@@ -90,8 +92,8 @@ var createCustomerList = function (quantity) {
       },
 
       location: {
-        x: getRandomNumber(0, mapWidth),
-        y: getRandomNumber(130 + pinHeight, 630 + pinHeight),
+        x: getRandomNumber(0, mapWidth) + (pinWidth / 2),
+        y: getRandomNumber(130, 630) + pinHeight,
       },
 
     };
