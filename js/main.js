@@ -6,16 +6,7 @@ var DESCRIPTIONS_POOL = ['Текст Один', 'Текст Два', 'Текст
 var FEATURES_POOL = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS_POOL = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
-var xPinCorrection = 25;
-var yPinCorrection = 70;
 var customerQuantity = 8;
-
-var map = document.querySelector('.map');
-map.classList.remove('map--faded');
-
-var pinTemplate = document.querySelector('#pin')
-.content
-.querySelector('.map__pin');
 
 var pinList = document.querySelector('.map__pins');
 
@@ -27,6 +18,53 @@ var getArrRandomElement = function (array) {
   var randomElement = Math.floor(Math.random() * array.length);
   return array[randomElement];
 };
+
+var map = document.querySelector('.map');
+map.classList.remove('map--faded');
+
+var pinTemplate = document.querySelector('#pin')
+  .content
+  .querySelector('.map__pin');
+
+
+var rawMapWidth = getComputedStyle(map, null).width;
+var rawMapHeight = getComputedStyle(map, null).height;
+var mapWidth = parseInt(rawMapWidth, 10);
+var mapHeight = parseInt(rawMapHeight, 10);
+
+
+var getPinWidth = function () {
+  var pinElement = pinTemplate.cloneNode(true);
+  var fragment = document.createDocumentFragment();
+  fragment.appendChild(pinElement);
+  pinList.appendChild(fragment);
+
+  var modelPin = document.querySelectorAll('.map__pin');
+
+  var rawPinWidth = getComputedStyle(modelPin[1], null).width;
+  var pinWidth = parseInt(rawPinWidth, 10);
+  pinElement.remove();
+
+  return pinWidth;
+};
+
+var getPinHeight = function () {
+  var pinElement = pinTemplate.cloneNode(true);
+  var fragment = document.createDocumentFragment();
+  fragment.appendChild(pinElement);
+  pinList.appendChild(fragment);
+
+  var modelPin = document.querySelectorAll('.map__pin');
+
+  var rawPinHeight = getComputedStyle(modelPin[1], null).height;
+  var pinHeight = parseInt(rawPinHeight, 10);
+  pinElement.remove();
+
+  return pinHeight;
+};
+
+var pinHeight = getPinHeight();
+var pinWidth = getPinWidth();
 
 
 var createCustomerList = function (quantity) {
@@ -52,8 +90,8 @@ var createCustomerList = function (quantity) {
       },
 
       location: {
-        x: getRandomNumber(0, 1200),
-        y: getRandomNumber(130, 630),
+        x: getRandomNumber(0, mapWidth),
+        y: getRandomNumber(130 + pinHeight, 630 + pinHeight),
       },
 
     };
@@ -67,8 +105,8 @@ var createCustomerList = function (quantity) {
 var renderMapPin = function (customer) {
   var pinElement = pinTemplate.cloneNode(true);
 
-  pinElement.style.left = customer.location.x - xPinCorrection + 'px';
-  pinElement.style.top = customer.location.y - yPinCorrection + 'px';
+  pinElement.style.left = customer.location.x - (pinWidth / 2) + 'px';
+  pinElement.style.top = customer.location.y - pinHeight + 'px';
   pinElement.querySelector('img').alt = customer.offer.title;
   pinElement.querySelector('img').src = customer.author.avatar;
 
