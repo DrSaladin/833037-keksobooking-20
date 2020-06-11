@@ -28,11 +28,9 @@ var pinTemplate = document.querySelector('#pin')
 
 
 var rawMapWidth = getComputedStyle(map, null).width;
-var rawMapHeight = getComputedStyle(map, null).height;
 var mapWidth = parseInt(rawMapWidth, 10);
-var mapHeight = parseInt(rawMapHeight, 10);
-
-
+// var rawMapHeight = getComputedStyle(map, null).height;
+// var mapHeight = parseInt(rawMapHeight, 10);
 
 
 var getPinWidth = function () {
