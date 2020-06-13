@@ -6,7 +6,7 @@ var DESCRIPTIONS_POOL = ['Текст Один', 'Текст Два', 'Текст
 var FEATURES_POOL = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS_POOL = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
-var customerQuantity = 8;
+var adQuantity = 8;
 
 var pinList = document.querySelector('.map__pins');
 
@@ -27,13 +27,11 @@ var pinTemplate = document.querySelector('#pin')
   .querySelector('.map__pin');
 
 
-var rawMapWidth = getComputedStyle(map, null).width;
+var rawMapWidth = getComputedStyle(map).width;
 var mapWidth = parseInt(rawMapWidth, 10);
-// var rawMapHeight = getComputedStyle(map, null).height;
-// var mapHeight = parseInt(rawMapHeight, 10);
 
 
-var getPinWidth = function () {
+var getPinCharacteristic = function () {
   var pinElement = pinTemplate.cloneNode(true);
   var fragment = document.createDocumentFragment();
   fragment.appendChild(pinElement);
@@ -41,36 +39,24 @@ var getPinWidth = function () {
 
   var modelPin = document.querySelectorAll('.map__pin');
 
-  var rawPinWidth = getComputedStyle(modelPin[1], null).width;
-  var pinWidth = parseInt(rawPinWidth, 10);
-  pinElement.remove();
+  var pinWidth = parseInt(getComputedStyle(modelPin[1]).width, 10);
+  var pinHeight = parseInt(getComputedStyle(modelPin[1]).height, 10);
 
-  return pinWidth;
+  var pinCharacteristic = {
+    height: pinHeight,
+    width: pinWidth,
+  };
+
+  pinList.removeChild(pinElement);
+
+  return pinCharacteristic;
 };
 
-var getPinHeight = function () {
-  var pinElement = pinTemplate.cloneNode(true);
-  var fragment = document.createDocumentFragment();
-  fragment.appendChild(pinElement);
-  pinList.appendChild(fragment);
 
-  var modelPin = document.querySelectorAll('.map__pin');
-
-  var rawPinHeight = getComputedStyle(modelPin[1], null).height;
-  var pinHeight = parseInt(rawPinHeight, 10);
-  pinElement.remove();
-
-  return pinHeight;
-};
-
-var pinHeight = getPinHeight();
-var pinWidth = getPinWidth();
-
-
-var createCustomerList = function (quantity) {
-  var customerList = [];
+var createAdList = function (quantity) {
+  var adList = [];
   for (var i = 0; i < quantity; i++) {
-    var customer = {
+    var ad = {
       author: {
         avatar: 'img/avatars/user0' + (i + 1) + '.png'
       },
@@ -90,25 +76,24 @@ var createCustomerList = function (quantity) {
       },
 
       location: {
-        x: getRandomNumber(0, mapWidth) + (pinWidth / 2),
-        y: getRandomNumber(130, 630) + pinHeight,
+        x: getRandomNumber(0, mapWidth),
+        y: getRandomNumber(130, 630),
       },
 
     };
 
-    customerList.push(customer);
+    adList.push(ad);
   }
-  return customerList;
+  return adList;
 };
 
-
-var renderMapPin = function (customer) {
+var renderMapPin = function (ad) {
   var pinElement = pinTemplate.cloneNode(true);
 
-  pinElement.style.left = customer.location.x - (pinWidth / 2) + 'px';
-  pinElement.style.top = customer.location.y - pinHeight + 'px';
-  pinElement.querySelector('img').alt = customer.offer.title;
-  pinElement.querySelector('img').src = customer.author.avatar;
+  pinElement.style.left = ad.location.x - getPinCharacteristic().width / 2 + 'px';
+  pinElement.style.top = ad.location.y - getPinCharacteristic().height + 'px';
+  pinElement.querySelector('img').alt = ad.offer.title;
+  pinElement.querySelector('img').src = ad.author.avatar;
 
   return pinElement;
 };
@@ -121,4 +106,6 @@ function renderPins(array) {
   pinList.appendChild(fragment);
 }
 
-renderPins(createCustomerList(customerQuantity));
+renderPins(createAdList(adQuantity));
+
+
