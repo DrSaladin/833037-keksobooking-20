@@ -6,7 +6,7 @@ var DESCRIPTIONS_POOL = ['Текст Один', 'Текст Два', 'Текст
 var FEATURES_POOL = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS_POOL = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
-var adQuantity = 8;
+var advertisementQuantity = 8;
 
 var pinList = document.querySelector('.map__pins');
 
@@ -37,26 +37,24 @@ var getPinCharacteristic = function () {
   fragment.appendChild(pinElement);
   pinList.appendChild(fragment);
 
-  var modelPin = document.querySelectorAll('.map__pin');
+  var modelPin = document.querySelector('.map__pin');
 
-  var pinWidth = parseInt(getComputedStyle(modelPin[1]).width, 10);
-  var pinHeight = parseInt(getComputedStyle(modelPin[1]).height, 10);
+  var pinWidth = modelPin.nextElementSibling.clientWidth;
+  var pinHeight = modelPin.nextElementSibling.clientHeight;
 
   var pinCharacteristic = {
     height: pinHeight,
     width: pinWidth,
   };
 
-  pinList.removeChild(pinElement);
-
   return pinCharacteristic;
 };
 
 
-var createAdList = function (quantity) {
-  var adList = [];
+var createAdvertisementList = function (quantity) {
+  var advertisementList = [];
   for (var i = 0; i < quantity; i++) {
-    var ad = {
+    var advertisement = {
       author: {
         avatar: 'img/avatars/user0' + (i + 1) + '.png'
       },
@@ -76,24 +74,24 @@ var createAdList = function (quantity) {
       },
 
       location: {
-        x: getRandomNumber(0, mapWidth),
-        y: getRandomNumber(130, 630),
+        x: getRandomNumber(0 + getPinCharacteristic().width / 2, mapWidth - getPinCharacteristic().width / 2),
+        y: getRandomNumber(130 + getPinCharacteristic().height, 630 + getPinCharacteristic().height),
       },
 
     };
 
-    adList.push(ad);
+    advertisementList.push(advertisement);
   }
-  return adList;
+  return advertisementList;
 };
 
-var renderMapPin = function (ad) {
+var renderMapPin = function (essence) {
   var pinElement = pinTemplate.cloneNode(true);
 
-  pinElement.style.left = ad.location.x - getPinCharacteristic().width / 2 + 'px';
-  pinElement.style.top = ad.location.y - getPinCharacteristic().height + 'px';
-  pinElement.querySelector('img').alt = ad.offer.title;
-  pinElement.querySelector('img').src = ad.author.avatar;
+  pinElement.style.left = essence.location.x - getPinCharacteristic().width / 2 + 'px';
+  pinElement.style.top = essence.location.y - getPinCharacteristic().height + 'px';
+  pinElement.querySelector('img').alt = essence.offer.title;
+  pinElement.querySelector('img').src = essence.author.avatar;
 
   return pinElement;
 };
@@ -106,6 +104,6 @@ function renderPins(array) {
   pinList.appendChild(fragment);
 }
 
-renderPins(createAdList(adQuantity));
+renderPins(createAdvertisementList(advertisementQuantity));
 
 
