@@ -6,6 +6,9 @@ var DESCRIPTIONS_POOL = ['Текст Один', 'Текст Два', 'Текст
 var FEATURES_POOL = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS_POOL = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
+var MIN_TITLE_LENGTH = 30;
+var MAX_TITLE_LENGTH = 100;
+
 var advertisementQuantity = 8;
 
 var pinList = document.querySelector('.map__pins');
@@ -20,16 +23,56 @@ var getArrRandomElement = function (array) {
 };
 
 var map = document.querySelector('.map');
-map.classList.remove('map--faded');
+
+var mainPin = document.querySelector('.map__pin--main');
+var mainForm = document.querySelector('.ad-form');
+
+
+var advertisementFieldsets = document.querySelectorAll('fieldset');
+var advertisementSelects = document.querySelectorAll('select');
+
+var disableForm = function () {
+  for (var i = 0; i < advertisementFieldsets.length; i++) {
+    advertisementFieldsets[i].setAttribute('disabled', true);
+  }
+
+  for (var j = 0; j < advertisementSelects.length; j++) {
+    advertisementSelects[j].setAttribute('disabled', true);
+  }
+};
+
+
+var enableForm = function () {
+  for (var i = 0; i < advertisementFieldsets.length; i++) {
+    advertisementFieldsets[i].removeAttribute('disabled');
+  }
+
+  for (var j = 0; j < advertisementSelects.length; j++) {
+    advertisementSelects[j].removeAttribute('disabled');
+  }
+};
 
 var pinTemplate = document.querySelector('#pin')
   .content
   .querySelector('.map__pin');
 
 
-var rawMapWidth = getComputedStyle(map).width;
-var mapWidth = parseInt(rawMapWidth, 10);
+var mapWidth = parseInt(getComputedStyle(map).width, 10);
 
+var mainPinLocation = function () {
+  var mainPinTop = parseInt(getComputedStyle(mainPin).top, 10);
+  var mainPinLeft = parseInt(getComputedStyle(mainPin).left, 10);
+
+  var pinLocation = mainPinTop + ',' + ' ' + mainPinLeft;
+
+  return pinLocation;
+};
+
+var mainPinAddress = document.querySelector('input[name = "address"]');
+var showAddress = function () {
+  mainPinAddress.value = mainPinLocation();
+};
+showAddress();
 
 var getPinCharacteristic = function () {
   var pinElement = pinTemplate.cloneNode(true);
@@ -104,6 +147,58 @@ function renderPins(array) {
   pinList.appendChild(fragment);
 }
 
-renderPins(createAdvertisementList(advertisementQuantity));
+var titleInput = document.querySelector('#title');
+titleInput.setAttribute('required', true);
+titleInput.setAttribute('minlength', MIN_TITLE_LENGTH);
+titleInput.setAttribute('maxlength', MAX_TITLE_LENGTH);
+titleInput.addEventListener('input', function () {
+  var titleLength = titleInput.value.length;
 
+  if (titleLength < MIN_TITLE_LENGTH) {
+    titleInput.setCustomValidity('Ещё ' + (MIN_TITLE_LENGTH - titleLength) + ' симв.');
+  } else if (titleLength >= MAX_TITLE_LENGTH) {
+    titleInput.setCustomValidity(MAX_TITLE_LENGTH + ' - это максимальная длинна заголовка');
+  } else {
+    titleInput.setCustomValidity('');
+  }
+});
+
+var housingTypeInput = document.querySelector('#housing-type');
+
+
+var priceInput = document.querySelector('#price');
+priceInput.setAttribute('required', true);
+var maxPrice = 1000000;
+priceInput.setAttribute('max', maxPrice);
+priceInput.addEventListener('input', function () {
+  if (priceInput.value >= maxPrice) {
+    priceInput.setCustomValidity('Максимальная цена за ночь ' + maxPrice);
+  } else {
+    priceInput.setCustomValidity('');
+  }
+});
+
+var avatarInput = document.querySelector('#avatar');
+var roomImgInput = document.querySelector('#images');
+roomImgInput.setAttribute('accept', 'image/png, image/jpeg');
+avatarInput.setAttribute('accept', 'image/png, image/jpeg');
+
+
+var enableWindow = function () {
+  if (map.classList.contains('map--faded')) {
+    disableForm();
+
+    mainPin.addEventListener('mousedown', function () {
+      if (event.button === 0) {
+        map.classList.remove('map--faded');
+        mainForm.classList.remove('ad-form--disabled');
+        enableForm();
+      }
+    });
+  }
+};
+
+
+enableWindow();
+renderPins(createAdvertisementList(advertisementQuantity));
 
