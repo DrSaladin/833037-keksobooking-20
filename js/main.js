@@ -253,6 +253,16 @@ var enableWindow = function () {
         renderPins(createAdvertisementList(advertisementQuantity));
       }
     });
+
+    mainPin.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === 13) {
+        map.classList.remove('map--faded');
+        mainForm.classList.remove('ad-form--disabled');
+        enableForm(advertisementFieldsets);
+        enableForm(advertisementSelects);
+        renderPins(createAdvertisementList(advertisementQuantity));
+      }
+    });
   }
 };
 
