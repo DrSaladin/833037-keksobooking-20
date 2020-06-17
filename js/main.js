@@ -31,26 +31,24 @@ var mainForm = document.querySelector('.ad-form');
 var advertisementFieldsets = document.querySelectorAll('fieldset');
 var advertisementSelects = document.querySelectorAll('select');
 
-var disableForm = function () {
-  for (var i = 0; i < advertisementFieldsets.length; i++) {
-    advertisementFieldsets[i].setAttribute('disabled', true);
-  }
 
-  for (var j = 0; j < advertisementSelects.length; j++) {
-    advertisementSelects[j].setAttribute('disabled', true);
+var disableForm = function (array) {
+  for (var i = 0; i < array.length; i++) {
+    array[i].setAttribute('disabled', true);
   }
 };
 
-
-var enableForm = function () {
-  for (var i = 0; i < advertisementFieldsets.length; i++) {
-    advertisementFieldsets[i].removeAttribute('disabled');
-  }
-
-  for (var j = 0; j < advertisementSelects.length; j++) {
-    advertisementSelects[j].removeAttribute('disabled');
+var enableForm = function (array) {
+  for (var i = 0; i < array.length; i++) {
+    array[i].removeAttribute('disabled');
   }
 };
+
+disableForm(advertisementFieldsets);
+disableForm(advertisementSelects);
+enableForm(advertisementFieldsets);
+enableForm(advertisementSelects);
+
 
 var pinTemplate = document.querySelector('#pin')
   .content
@@ -72,10 +70,11 @@ var mainPinAddress = document.querySelector('input[name = "address"]');
 var showAddress = function () {
   mainPinAddress.value = mainPinLocation();
 };
+mainPinAddress.setAttribute('disabled', true);
 showAddress();
 
 var getPinCharacteristic = function () {
-  var pinElement = pinTemplate.cloneNode(true);
+  var pinElement = pinTemplate.cloneNode();
   var fragment = document.createDocumentFragment();
   fragment.appendChild(pinElement);
   pinList.appendChild(fragment);
@@ -84,11 +83,14 @@ var getPinCharacteristic = function () {
 
   var pinWidth = modelPin.nextElementSibling.clientWidth;
   var pinHeight = modelPin.nextElementSibling.clientHeight;
+  modelPin.nextElementSibling.style.display = 'none';
+  pinList.removeChild(modelPin.nextElementSibling);
 
   var pinCharacteristic = {
     height: pinHeight,
     width: pinWidth,
   };
+
 
   return pinCharacteristic;
 };
@@ -147,6 +149,9 @@ function renderPins(array) {
   pinList.appendChild(fragment);
 }
 
+var adForm = document.querySelector('.ad-form');
+adForm.setAttribute('action', 'https://javascript.pages.academy/keksobooking');
+
 var titleInput = document.querySelector('#title');
 titleInput.setAttribute('required', true);
 titleInput.setAttribute('minlength', MIN_TITLE_LENGTH);
@@ -163,12 +168,11 @@ titleInput.addEventListener('input', function () {
   }
 });
 
-var housingTypeInput = document.querySelector('#housing-type');
-
 
 var priceInput = document.querySelector('#price');
 priceInput.setAttribute('required', true);
 var maxPrice = 1000000;
+var minPrice = 0;
 priceInput.setAttribute('max', maxPrice);
 priceInput.addEventListener('input', function () {
   if (priceInput.value >= maxPrice) {
@@ -178,6 +182,57 @@ priceInput.addEventListener('input', function () {
   }
 });
 
+var roomNumberSelect = document.querySelector('#room_number');
+var questNumberSelect = document.querySelector('#capacity');
+
+roomNumberSelect.onchange = function () {
+  if (roomNumberSelect.value === '1' && questNumberSelect.value === '1') {
+    questNumberSelect.setCustomValidity('');
+  } else if (roomNumberSelect.value === '1' && questNumberSelect.value > '1') {
+    questNumberSelect.setCustomValidity('Доступна опция "Для одного гостя"');
+  } else if (roomNumberSelect.value === '2' && questNumberSelect.value >= '1' && questNumberSelect.value <= '2') {
+    questNumberSelect.setCustomValidity('');
+  } else if (roomNumberSelect.value === '2' && questNumberSelect.value > '2') {
+    questNumberSelect.setCustomValidity('Доступные опции "Для одного гостя" или "Для двух гостей"');
+  } else if (roomNumberSelect.value === '3' && questNumberSelect.value >= '1' && questNumberSelect.value <= '3') {
+    questNumberSelect.setCustomValidity('');
+  } else if (roomNumberSelect.value === '2' && questNumberSelect.value > '3') {
+    questNumberSelect.setCustomValidity('Доступные опции "Для одного гостя", "Для двух гостей" или "Для трех гостей"');
+  } else if (roomNumberSelect.value === '100' && questNumberSelect.value === '0') {
+    questNumberSelect.setCustomValidity('');
+  } else if (roomNumberSelect.value === '100' && questNumberSelect.value > '0') {
+    questNumberSelect.setCustomValidity('Доступна опция "Не для гостей"');
+  }
+};
+
+
+var housingTypeInput = document.querySelector('#type');
+var minHousePrice = 5000;
+var minFlatPrice = 1000;
+var minPalacePrice = 10000;
+var minBungaloPrice = 0;
+
+
+housingTypeInput.onchange = function () {
+  if (housingTypeInput.value === 'bungalo') {
+    minPrice = 0;
+    priceInput.setAttribute('min', minPrice);
+    priceInput.setAttribute('placeholder', minBungaloPrice);
+  } else if (housingTypeInput.value === 'flat') {
+    minPrice = 1000;
+    priceInput.setAttribute('min', minPrice);
+    priceInput.setAttribute('placeholder', minFlatPrice);
+  } else if (housingTypeInput.value === 'house') {
+    minPrice = 5000;
+    priceInput.setAttribute('min', minPrice);
+    priceInput.setAttribute('placeholder', minHousePrice);
+  } else if (housingTypeInput.value === 'palace') {
+    minPrice = 10000;
+    priceInput.setAttribute('min', minPrice);
+    priceInput.setAttribute('placeholder', minPalacePrice);
+  }
+};
+
 var avatarInput = document.querySelector('#avatar');
 var roomImgInput = document.querySelector('#images');
 roomImgInput.setAttribute('accept', 'image/png, image/jpeg');
@@ -186,19 +241,20 @@ avatarInput.setAttribute('accept', 'image/png, image/jpeg');
 
 var enableWindow = function () {
   if (map.classList.contains('map--faded')) {
-    disableForm();
+    disableForm(advertisementFieldsets);
+    disableForm(advertisementSelects);
 
     mainPin.addEventListener('mousedown', function () {
       if (event.button === 0) {
         map.classList.remove('map--faded');
         mainForm.classList.remove('ad-form--disabled');
-        enableForm();
+        enableForm(advertisementFieldsets);
+        enableForm(advertisementSelects);
+        renderPins(createAdvertisementList(advertisementQuantity));
       }
     });
   }
 };
 
-
 enableWindow();
-renderPins(createAdvertisementList(advertisementQuantity));
 
