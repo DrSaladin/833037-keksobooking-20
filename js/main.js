@@ -9,13 +9,13 @@ var PHOTOS_POOL = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http:/
 var MIN_TITLE_LENGTH = 30;
 var MAX_TITLE_LENGTH = 100;
 
-var MIN_HOUSE_PRICE = 5000;
-var MIN_FLAT_PRICE = 1000;
-var MIN_PALACE_PRICE = 10000;
 var MIN_BUNGALO_PRICE = 0;
+var MIN_FLAT_PRICE = 1000;
+var MIN_HOUSE_PRICE = 5000;
+var MIN_PALACE_PRICE = 10000;
 
 var MAX_PRICE = 1000000;
-var MIN_PRICE = 0;
+var minPrice = 0;
 
 
 var advertisementQuantity = 8;
@@ -32,7 +32,7 @@ var getArrRandomElement = function (array) {
 };
 
 var map = document.querySelector('.map');
-var mainPin = document.querySelector('.map__pin--main');
+var mainPin = pinList.querySelector('.map__pin--main');
 
 var mainForm = document.querySelector('.ad-form');
 var mainFormFieldsets = mainForm.querySelectorAll('fieldset');
@@ -82,11 +82,10 @@ var getPinCharacteristic = function () {
   pinElement.style.visibility = 'hidden';
   pinList.appendChild(pinElement);
 
-  var modelPin = document.querySelector('.map__pin');
+  var modelPin = pinList.querySelector('.map__pin');
 
   var pinWidth = modelPin.nextElementSibling.clientWidth;
   var pinHeight = modelPin.nextElementSibling.clientHeight;
-  modelPin.nextElementSibling.style.display = 'none';
   pinList.removeChild(modelPin.nextElementSibling);
 
   var pinCharacteristic = {
@@ -153,16 +152,16 @@ function renderPins(array) {
 var adForm = document.querySelector('.ad-form');
 adForm.setAttribute('action', 'https://javascript.pages.academy/keksobooking');
 
-var inputAdTitle = document.querySelector('#title');
+var inputAdTitle = adForm.querySelector('#title');
 inputAdTitle.required = true;
-inputAdTitle.setAttribute('minlength', MIN_TITLE_LENGTH);
-inputAdTitle.setAttribute('maxlength', MAX_TITLE_LENGTH);
+inputAdTitle.setAttribute('minlength', MIN_TITLE_LENGTH.toString());
+inputAdTitle.setAttribute('maxlength', MAX_TITLE_LENGTH.toString());
 inputAdTitle.addEventListener('input', function () {
-  var titleLength = inputAdTitle.value.length;
+  var titleValueLength = inputAdTitle.value.length;
 
-  if (titleLength < MIN_TITLE_LENGTH) {
-    inputAdTitle.setCustomValidity('Ещё ' + (MIN_TITLE_LENGTH - titleLength) + ' симв.');
-  } else if (titleLength >= MAX_TITLE_LENGTH) {
+  if (titleValueLength < MIN_TITLE_LENGTH) {
+    inputAdTitle.setCustomValidity('Ещё ' + (MIN_TITLE_LENGTH - titleValueLength) + ' симв.');
+  } else if (titleValueLength >= MAX_TITLE_LENGTH) {
     inputAdTitle.setCustomValidity(MAX_TITLE_LENGTH + ' - это максимальная длинна заголовка');
   } else {
     inputAdTitle.setCustomValidity('');
@@ -170,9 +169,9 @@ inputAdTitle.addEventListener('input', function () {
 });
 
 
-var selectAdPrice = document.querySelector('#price');
+var selectAdPrice = adForm.querySelector('#price');
 selectAdPrice.required = true;
-selectAdPrice.setAttribute('max', MAX_PRICE);
+selectAdPrice.setAttribute('max', MAX_PRICE.toString());
 selectAdPrice.addEventListener('input', function () {
   if (selectAdPrice.value >= MAX_PRICE) {
     selectAdPrice.setCustomValidity('Максимальная цена за ночь ' + MAX_PRICE);
@@ -181,8 +180,8 @@ selectAdPrice.addEventListener('input', function () {
   }
 });
 
-var selectAdRoomNumber = document.querySelector('#room_number');
-var selectAdGuestNumber = document.querySelector('#capacity');
+var selectAdRoomNumber = adForm.querySelector('#room_number');
+var selectAdGuestNumber = adForm.querySelector('#capacity');
 
 selectAdRoomNumber.addEventListener('change', function () {
   if (selectAdRoomNumber.value === '1' && selectAdGuestNumber.value > '1') {
@@ -198,31 +197,31 @@ selectAdRoomNumber.addEventListener('change', function () {
   }
 });
 
-var inputAdHousingType = document.querySelector('#type');
+var inputAdHousingType = adForm.querySelector('#type');
 
 inputAdHousingType.addEventListener('change', function () {
   if (inputAdHousingType.value === 'bungalo') {
-    MIN_PRICE = 0;
-    selectAdPrice.setAttribute('min', MIN_PRICE);
+    minPrice = 0;
+    selectAdPrice.setAttribute('min', minPrice.toString());
     selectAdPrice.setAttribute('placeholder', MIN_BUNGALO_PRICE.toString());
   } else if (inputAdHousingType.value === 'flat') {
-    MIN_PRICE = 1000;
-    selectAdPrice.setAttribute('min', MIN_PRICE);
+    minPrice = 1000;
+    selectAdPrice.setAttribute('min', minPrice.toString());
     selectAdPrice.setAttribute('placeholder', MIN_FLAT_PRICE.toString());
   } else if (inputAdHousingType.value === 'house') {
-    MIN_PRICE = 5000;
-    selectAdPrice.setAttribute('min', MIN_PRICE);
+    minPrice = 5000;
+    selectAdPrice.setAttribute('min', minPrice.toString());
     selectAdPrice.setAttribute('placeholder', MIN_HOUSE_PRICE.toString());
   } else if (inputAdHousingType.value === 'palace') {
-    MIN_PRICE = 10000;
-    selectAdPrice.setAttribute('min', MIN_PRICE);
+    minPrice = 10000;
+    selectAdPrice.setAttribute('min', minPrice.toString());
     selectAdPrice.setAttribute('placeholder', MIN_PALACE_PRICE.toString());
   }
 });
 
 
-var inputAdAvatar = document.querySelector('#avatar');
-var inputAdRoomImg = document.querySelector('#images');
+var inputAdAvatar = adForm.querySelector('#avatar');
+var inputAdRoomImg = adForm.querySelector('#images');
 inputAdRoomImg.setAttribute('accept', 'image/png, image/jpeg');
 inputAdAvatar.setAttribute('accept', 'image/png, image/jpeg');
 
