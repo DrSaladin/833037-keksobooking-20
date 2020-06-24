@@ -20,6 +20,7 @@ var minPrice = 0;
 
 var advertisementQuantity = 8;
 
+var map = document.querySelector('.map');
 var pinList = document.querySelector('.map__pins');
 
 var getRandomNumber = function (min, max) {
@@ -31,7 +32,7 @@ var getArrRandomElement = function (array) {
   return array[randomElement];
 };
 
-var map = document.querySelector('.map');
+
 var mainPin = pinList.querySelector('.map__pin--main');
 
 var mainForm = document.querySelector('.ad-form');
