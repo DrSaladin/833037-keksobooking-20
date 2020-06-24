@@ -1,0 +1,111 @@
+'use strict';
+
+(function () {
+
+  var mainForm = document.querySelector('.ad-form');
+  var mainFormFieldsets = mainForm.querySelectorAll('fieldset');
+  var mainFormSelects = mainForm.querySelectorAll('select');
+
+  var mapFilterForm = document.querySelector('.map__filters');
+  var mapFilterFieldsets = mapFilterForm.querySelectorAll('fieldset');
+  var mapFilterSelects = mapFilterForm.querySelectorAll('select');
+
+
+  var disableForm = function (formElements) {
+    for (var i = 0; i < formElements.length; i++) {
+      formElements[i].setAttribute('disabled', true);
+    }
+  };
+
+  var enableForm = function (formElements) {
+    for (var i = 0; i < formElements.length; i++) {
+      formElements[i].removeAttribute('disabled');
+    }
+  };
+
+  var adForm = document.querySelector('.ad-form');
+  adForm.setAttribute('action', 'https://javascript.pages.academy/keksobooking');
+
+  var inputAdTitle = adForm.querySelector('#title');
+  inputAdTitle.required = true;
+  inputAdTitle.setAttribute('minlength', window.utils.MIN_TITLE_LENGTH.toString());
+  inputAdTitle.setAttribute('maxlength', window.utils.MAX_TITLE_LENGTH.toString());
+  inputAdTitle.addEventListener('input', function () {
+    var titleValueLength = inputAdTitle.value.length;
+
+    if (titleValueLength < window.utils.MIN_TITLE_LENGTH) {
+      inputAdTitle.setCustomValidity('Ещё ' + (window.utils.MIN_TITLE_LENGTH - titleValueLength) + ' симв.');
+    } else if (titleValueLength >= window.utils.MAX_TITLE_LENGTH) {
+      inputAdTitle.setCustomValidity(window.utils.MAX_TITLE_LENGTH + ' - это максимальная длинна заголовка');
+    } else {
+      inputAdTitle.setCustomValidity('');
+    }
+  });
+
+
+  var selectAdPrice = adForm.querySelector('#price');
+  selectAdPrice.required = true;
+  selectAdPrice.setAttribute('max', window.utils.MAX_PRICE.toString());
+  selectAdPrice.addEventListener('input', function () {
+    if (selectAdPrice.value >= window.utils.MAX_PRICE) {
+      selectAdPrice.setCustomValidity('Максимальная цена за ночь ' + window.utils.MAX_PRICE);
+    } else {
+      selectAdPrice.setCustomValidity('');
+    }
+  });
+
+  var selectAdRoomNumber = adForm.querySelector('#room_number');
+  var selectAdGuestNumber = adForm.querySelector('#capacity');
+
+  selectAdRoomNumber.addEventListener('change', function () {
+    if (selectAdRoomNumber.value === '1' && selectAdGuestNumber.value > '1') {
+      selectAdGuestNumber.setCustomValidity('Доступна опция "Для одного гостя"');
+    } else if (selectAdRoomNumber.value === '2' && selectAdGuestNumber.value > '2') {
+      selectAdGuestNumber.setCustomValidity('Доступные опции "Для одного гостя" или "Для двух гостей"');
+    } else if (selectAdRoomNumber.value === '3' && selectAdGuestNumber.value > '3') {
+      selectAdGuestNumber.setCustomValidity('Доступные опции "Для одного гостя", "Для двух гостей" или "Для трех гостей"');
+    } else if (selectAdRoomNumber.value === '100' && selectAdGuestNumber.value > '0') {
+      selectAdGuestNumber.setCustomValidity('Доступна опция "Не для гостей"');
+    } else {
+      selectAdGuestNumber.setCustomValidity('');
+    }
+  });
+
+  var inputAdHousingType = adForm.querySelector('#type');
+
+  inputAdHousingType.addEventListener('change', function () {
+    if (inputAdHousingType.value === 'bungalo') {
+      window.utils.minPrice = 0;
+      selectAdPrice.setAttribute('min', window.utils.minPrice.toString());
+      selectAdPrice.setAttribute('placeholder', window.utils.MIN_BUNGALO_PRICE.toString());
+    } else if (inputAdHousingType.value === 'flat') {
+      window.utils.minPrice = 1000;
+      selectAdPrice.setAttribute('min', window.utils.minPrice.toString());
+      selectAdPrice.setAttribute('placeholder', window.utils.MIN_FLAT_PRICE.toString());
+    } else if (inputAdHousingType.value === 'house') {
+      window.utils.minPrice = 5000;
+      selectAdPrice.setAttribute('min', window.utils.minPrice.toString());
+      selectAdPrice.setAttribute('placeholder', window.utils.MIN_HOUSE_PRICE.toString());
+    } else if (inputAdHousingType.value === 'palace') {
+      window.utils.minPrice = 10000;
+      selectAdPrice.setAttribute('min', window.utils.minPrice.toString());
+      selectAdPrice.setAttribute('placeholder', window.utils.MIN_PALACE_PRICE.toString());
+    }
+  });
+
+
+  var inputAdAvatar = adForm.querySelector('#avatar');
+  var inputAdRoomImg = adForm.querySelector('#images');
+  inputAdRoomImg.setAttribute('accept', 'image/png, image/jpeg');
+  inputAdAvatar.setAttribute('accept', 'image/png, image/jpeg');
+
+  window.form = {
+    mainForm: mainForm,
+    mainFormFieldsets: mainFormFieldsets,
+    mainFormSelects: mainFormSelects,
+    mapFilterFieldsets: mapFilterFieldsets,
+    mapFilterSelects: mapFilterSelects,
+    disableForm: disableForm,
+    enableForm: enableForm
+  };
+})();
