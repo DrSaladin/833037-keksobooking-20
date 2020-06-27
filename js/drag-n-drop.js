@@ -9,12 +9,15 @@
     window.utils.mainPin.removeEventListener('mousdown', onClickPreventDefault);
   };
 
+  var mapTopLimit = 100;
+  var mapBottomLimit = 130;
+  var mapLeftLimit = 0;
 
   var mapBorders = {
-    top: window.utils.map.offsetTop + 100,
+    top: window.utils.map.offsetTop + mapTopLimit,
     right: window.utils.map.offsetWidth - window.utils.mainPin.offsetWidth,
-    bottom: window.utils.map.offsetHeight - window.utils.mainPin.offsetHeight * 2,
-    left: 0
+    bottom: window.utils.map.offsetHeight - mapBottomLimit,
+    left: mapLeftLimit,
   };
 
 
@@ -47,7 +50,7 @@
 
       if (topPosition < mapBorders.top) {
         window.utils.mainPin.style.top = (mapBorders.top) + 'px';
-      } else if (topPosition + window.pins.getPinCharacteristic().height > mapBorders.bottom) {
+      } else if (topPosition > mapBorders.bottom) {
         window.utils.mainPin.style.top = (mapBorders.bottom) + 'px';
       } else {
         window.utils.mainPin.style.top = topPosition + 'px';
@@ -55,7 +58,7 @@
 
       if (leftPosition < mapBorders.left) {
         window.utils.mainPin.style.left = (mapBorders.left) + 'px';
-      } else if (leftPosition + window.pins.getPinCharacteristic().width > mapBorders.right) {
+      } else if (leftPosition > mapBorders.right) {
         window.utils.mainPin.style.left = (mapBorders.right) + 'px';
       } else {
         window.utils.mainPin.style.left = leftPosition + 'px';
@@ -76,4 +79,5 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
+
 })();

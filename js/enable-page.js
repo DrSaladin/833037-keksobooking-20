@@ -19,7 +19,7 @@
               window.utils.pinList.removeChild(mapPinCollection[i]);
             }
           }
-          window.pins.renderPins(window.pins.createAdvertisementList(window.utils.advertisementQuantity));
+          window.renderPins.renderPins(window.pins.createAdvertisementList(window.utils.advertisementQuantity));
           window.form.enableForm(window.form.mainFormFieldsets);
           window.form.enableForm(window.form.mainFormSelects);
           window.form.enableForm(window.form.mapFilterFieldsets);
@@ -37,7 +37,7 @@
               window.utils.pinList.removeChild(mapPinCollection[i]);
             }
           }
-          window.pins.renderPins(window.pins.createAdvertisementList(window.utils.advertisementQuantity));
+          window.renderPins.renderPins(window.pins.createAdvertisementList(window.utils.advertisementQuantity));
           window.form.enableForm(window.form.mainFormFieldsets);
           window.form.enableForm(window.form.mainFormSelects);
           window.form.enableForm(window.form.mapFilterFieldsets);
