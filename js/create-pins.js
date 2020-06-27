@@ -1,16 +1,21 @@
 'use strict';
 
 (function () {
+  var pinList = document.querySelector('.map__pins');
+  var mainPin = pinList.querySelector('.map__pin--main');
+  var map = document.querySelector('.map');
+
+
   var pinTemplate = document.querySelector('#pin')
     .content
     .querySelector('.map__pin');
 
 
-  var mapWidth = parseInt(getComputedStyle(window.utils.map).width, 10);
+  var mapWidth = parseInt(getComputedStyle(map).width, 10);
 
   var calcMainPinLocation = function () {
-    var mainPinTop = parseInt(getComputedStyle(window.utils.mainPin).top, 10);
-    var mainPinLeft = parseInt(getComputedStyle(window.utils.mainPin).left, 10);
+    var mainPinTop = parseInt(getComputedStyle(mainPin).top, 10);
+    var mainPinLeft = parseInt(getComputedStyle(mainPin).left, 10);
 
     var pinLocation = mainPinTop + ', ' + mainPinLeft;
 
@@ -25,13 +30,13 @@
   var getPinCharacteristic = function () {
     var pinElement = pinTemplate.cloneNode();
     pinElement.style.visibility = 'hidden';
-    window.utils.pinList.appendChild(pinElement);
+    pinList.appendChild(pinElement);
 
-    var modelPin = window.utils.pinList.querySelector('.map__pin');
+    var modelPin = pinList.querySelector('.map__pin');
 
     var pinWidth = modelPin.nextElementSibling.clientWidth;
     var pinHeight = modelPin.nextElementSibling.clientHeight;
-    window.utils.pinList.removeChild(modelPin.nextElementSibling);
+    pinList.removeChild(modelPin.nextElementSibling);
 
     var pinCharacteristic = {
       height: pinHeight,
@@ -75,9 +80,8 @@
     return advertisementList;
   };
 
-  window.pins = {
+  window.createPins = {
     createAdvertisementList: createAdvertisementList,
     getPinCharacteristic: getPinCharacteristic,
-    pinTemplate: pinTemplate
   };
 })();

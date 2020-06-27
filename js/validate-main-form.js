@@ -21,6 +21,8 @@
     }
   });
 
+  var minPrice = 0;
+
 
   var selectAdPrice = adForm.querySelector('#price');
   selectAdPrice.required = true;
@@ -54,20 +56,20 @@
 
   inputAdHousingType.addEventListener('change', function () {
     if (inputAdHousingType.value === 'bungalo') {
-      window.utils.minPrice = 0;
-      selectAdPrice.setAttribute('min', window.utils.minPrice.toString());
+      minPrice = 0;
+      selectAdPrice.setAttribute('min', minPrice.toString());
       selectAdPrice.setAttribute('placeholder', window.utils.MIN_BUNGALO_PRICE.toString());
     } else if (inputAdHousingType.value === 'flat') {
-      window.utils.minPrice = 1000;
-      selectAdPrice.setAttribute('min', window.utils.minPrice.toString());
+      minPrice = 1000;
+      selectAdPrice.setAttribute('min', minPrice.toString());
       selectAdPrice.setAttribute('placeholder', window.utils.MIN_FLAT_PRICE.toString());
     } else if (inputAdHousingType.value === 'house') {
-      window.utils.minPrice = 5000;
-      selectAdPrice.setAttribute('min', window.utils.minPrice.toString());
+      minPrice = 5000;
+      selectAdPrice.setAttribute('min', minPrice.toString());
       selectAdPrice.setAttribute('placeholder', window.utils.MIN_HOUSE_PRICE.toString());
     } else if (inputAdHousingType.value === 'palace') {
-      window.utils.minPrice = 10000;
-      selectAdPrice.setAttribute('min', window.utils.minPrice.toString());
+      minPrice = 10000;
+      selectAdPrice.setAttribute('min', minPrice.toString());
       selectAdPrice.setAttribute('placeholder', window.utils.MIN_PALACE_PRICE.toString());
     }
   });

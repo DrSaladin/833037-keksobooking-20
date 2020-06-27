@@ -19,14 +19,7 @@
 
 
   var MAX_PRICE = 1000000;
-  var minPrice = 0;
 
-
-  var advertisementQuantity = 8;
-
-
-  var map = document.querySelector('.map');
-  var pinList = document.querySelector('.map__pins');
 
   var getRandomNumber = function (min, max) {
     return Math.floor(Math.random() * (Math.floor(max) - Math.ceil(min))) + Math.ceil(min);
@@ -36,8 +29,6 @@
     var randomElement = Math.floor(Math.random() * array.length);
     return array[randomElement];
   };
-
-  var mainPin = pinList.querySelector('.map__pin--main');
 
   window.utils = {
     TYPE_POOL: TYPE_POOL,
@@ -52,12 +43,7 @@
     MIN_HOUSE_PRICE: MIN_HOUSE_PRICE,
     MIN_PALACE_PRICE: MIN_PALACE_PRICE,
     MAX_PRICE: MAX_PRICE,
-    minPrice: minPrice,
-    advertisementQuantity: advertisementQuantity,
-    map: map,
-    pinList: pinList,
     getRandomNumber: getRandomNumber,
     getArrRandomElement: getArrRandomElement,
-    mainPin: mainPin,
   };
 })();
