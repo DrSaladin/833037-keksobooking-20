@@ -3,7 +3,12 @@
 (function () {
   var pinList = document.querySelector('.map__pins');
   var mainPin = pinList.querySelector('.map__pin--main');
+  var mainPinWidth = mainPin.clientWidth;
+  var mainPinHeight = mainPin.clientHeight;
   var map = document.querySelector('.map');
+
+  var mainPinAddress = document.querySelector('input[name = "address"]');
+
 
   var mapTopLimit = 100;
   var mapBottomLimit = 130;
@@ -57,6 +62,8 @@
       } else {
         mainPin.style.left = leftPosition + 'px';
       }
+
+      mainPinAddress.value = (parseInt(mainPin.style.top, 10) + mainPinHeight) + ', ' + (parseInt(mainPin.style.left, 10) + mainPinWidth / 2);
     };
 
     var onMouseUp = function (upEvt) {

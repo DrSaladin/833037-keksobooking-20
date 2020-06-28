@@ -21,8 +21,8 @@
     }
   });
 
-  var minPrice = 0;
 
+  var minPrice = 0;
 
   var selectAdPrice = adForm.querySelector('#price');
   selectAdPrice.required = true;

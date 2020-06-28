@@ -8,14 +8,36 @@
   mainPin.setAttribute('tabIndex', 0);
 
   var mainForm = document.querySelector('.ad-form');
-  var mainFormFieldsets = mainForm.querySelectorAll('fieldset');
-  var mainFormSelects = mainForm.querySelectorAll('select');
 
   var mapFilterForm = document.querySelector('.map__filters');
-  var mapFilterFieldsets = mapFilterForm.querySelectorAll('fieldset');
-  var mapFilterSelects = mapFilterForm.querySelectorAll('select');
 
   var advertisementQuantity = 8;
+
+  var disableFormElement = function (form) {
+    var selects = form.querySelectorAll('select');
+    var fieldsets = form.querySelectorAll('fieldset');
+
+    for (var i = 0; i < selects.length; i++) {
+      selects[i].setAttribute('disabled', true);
+    }
+
+    for (var j = 0; j < fieldsets.length; j++) {
+      fieldsets[j].setAttribute('disabled', true);
+    }
+  };
+
+  var enableFormElement = function (form) {
+    var selects = form.querySelectorAll('select');
+    var fieldsets = form.querySelectorAll('fieldset');
+
+    for (var i = 0; i < selects.length; i++) {
+      selects[i].removeAttribute('disabled');
+    }
+
+    for (var j = 0; j < fieldsets.length; j++) {
+      fieldsets[j].removeAttribute('disabled');
+    }
+  };
 
   mainPin.addEventListener('mousedown', function (evt) {
     if (evt.button === 0) {
@@ -27,11 +49,9 @@
           pinList.removeChild(mapPinCollection[i]);
         }
       }
-      window.renderPins.renderPins(window.createPins.createAdvertisementList(advertisementQuantity));
-      window.formElementsModeSwitcher.enableFormElement(mainFormFieldsets);
-      window.formElementsModeSwitcher.enableFormElement(mainFormSelects);
-      window.formElementsModeSwitcher.enableFormElement(mapFilterFieldsets);
-      window.formElementsModeSwitcher.enableFormElement(mapFilterSelects);
+      window.renderPins.renderPins(window.createAdvertisements.createAdvertisementList(advertisementQuantity));
+      enableFormElement(mainForm);
+      enableFormElement(mapFilterForm);
     }
   });
 
@@ -46,20 +66,16 @@
         }
       }
       window.renderPins.renderPins(window.createPins.createAdvertisementList(advertisementQuantity));
-      window.formElementsModeSwitcher.enableFormElement(mainFormFieldsets);
-      window.formElementsModeSwitcher.enableFormElement(mainFormSelects);
-      window.formElementsModeSwitcher.enableFormElement(mapFilterFieldsets);
-      window.formElementsModeSwitcher.enableFormElement(mapFilterSelects);
+      enableFormElement(mainForm);
+      enableFormElement(mapFilterForm);
     }
   });
 
 
   var disableMainForm = function () {
     if (map.classList.contains('map--faded')) {
-      window.formElementsModeSwitcher.disableFormElement(mainFormFieldsets);
-      window.formElementsModeSwitcher.disableFormElement(mainFormSelects);
-      window.formElementsModeSwitcher.disableFormElement(mapFilterFieldsets);
-      window.formElementsModeSwitcher.disableFormElement(mapFilterSelects);
+      disableFormElement(mainForm);
+      disableFormElement(mapFilterForm);
     }
   };
 
