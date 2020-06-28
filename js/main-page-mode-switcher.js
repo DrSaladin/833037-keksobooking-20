@@ -17,8 +17,8 @@
 
   var advertisementQuantity = 8;
 
-  var enablePageByClick = function () {
-    if (event.button === 0) {
+  mainPin.addEventListener('mousedown', function (evt) {
+    if (evt.button === 0) {
       map.classList.remove('map--faded');
       mainForm.classList.remove('ad-form--disabled');
       var mapPinCollection = pinList.querySelectorAll('.map__pin');
@@ -32,12 +32,11 @@
       window.formElementsModeSwitcher.enableFormElement(mainFormSelects);
       window.formElementsModeSwitcher.enableFormElement(mapFilterFieldsets);
       window.formElementsModeSwitcher.enableFormElement(mapFilterSelects);
-      mainPin.removeEventListener('mousedown', enablePageByClick);
     }
-  };
+  });
 
-  var enablePageByKeydown = function () {
-    if (event.keyCode === 13) {
+  mainPin.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === 13) {
       map.classList.remove('map--faded');
       mainForm.classList.remove('ad-form--disabled');
       var mapPinCollection = pinList.querySelectorAll('.map__pin');
@@ -51,9 +50,8 @@
       window.formElementsModeSwitcher.enableFormElement(mainFormSelects);
       window.formElementsModeSwitcher.enableFormElement(mapFilterFieldsets);
       window.formElementsModeSwitcher.enableFormElement(mapFilterSelects);
-      mainPin.removeEventListener('keydown', enablePageByKeydown);
     }
-  };
+  });
 
 
   var disableMainForm = function () {
@@ -65,8 +63,6 @@
     }
   };
 
-  mainPin.addEventListener('mousedown', enablePageByClick);
-  mainPin.addEventListener('keydown', enablePageByKeydown);
 
   disableMainForm();
 
