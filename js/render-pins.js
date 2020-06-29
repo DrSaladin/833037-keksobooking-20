@@ -7,28 +7,29 @@
     .content
     .querySelector('.map__pin');
 
-    var mainPinAddress = document.querySelector('input[name = "address"]');
-    mainPinAddress.setAttribute('disabled', true);
+
+  var mainPinAddress = document.querySelector('input[name = "address"]');
+  mainPinAddress.setAttribute('disabled', true);
 
 
-    window.getPinCharacteristic = function () {
-      var pinElement = pinTemplate.cloneNode();
-      pinElement.style.visibility = 'hidden';
-      pinList.appendChild(pinElement);
+  window.getPinCharacteristic = function () {
+    var pinElement = pinTemplate.cloneNode();
+    pinElement.style.visibility = 'hidden';
+    pinList.appendChild(pinElement);
 
-      var modelPin = pinList.querySelector('.map__pin');
+    var modelPin = pinList.querySelector('.map__pin');
 
-      var pinWidth = modelPin.nextElementSibling.clientWidth;
-      var pinHeight = modelPin.nextElementSibling.clientHeight;
-      pinList.removeChild(modelPin.nextElementSibling);
+    var pinWidth = modelPin.nextElementSibling.clientWidth;
+    var pinHeight = modelPin.nextElementSibling.clientHeight;
+    pinList.removeChild(modelPin.nextElementSibling);
 
-      var pinCharacteristic = {
-        height: pinHeight,
-        width: pinWidth,
-      };
-
-      return pinCharacteristic;
+    var pinCharacteristic = {
+      height: pinHeight,
+      width: pinWidth,
     };
+
+    return pinCharacteristic;
+  };
 
   var renderMapPin = function (essence) {
     var pinElement = pinTemplate.cloneNode(true);
@@ -47,5 +48,5 @@
       fragment.appendChild(renderMapPin(array[i]));
     }
     pinList.appendChild(fragment);
-  }
+  };
 })();
