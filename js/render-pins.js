@@ -48,5 +48,4 @@
     }
     pinList.appendChild(fragment);
   }
-
 })();
