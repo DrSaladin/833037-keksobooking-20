@@ -21,7 +21,6 @@
     left: mapLeftLimit,
   };
 
-
   mainPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 

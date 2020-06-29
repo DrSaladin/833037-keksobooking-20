@@ -7,7 +7,7 @@
 
   mainPin.setAttribute('tabIndex', 0);
 
-  var mainForm = document.querySelector('.ad-form');
+  var advertisementForm = document.querySelector('.ad-form');
 
   var mapFilterForm = document.querySelector('.map__filters');
 
@@ -42,15 +42,15 @@
   mainPin.addEventListener('mousedown', function (evt) {
     if (evt.button === 0) {
       map.classList.remove('map--faded');
-      mainForm.classList.remove('ad-form--disabled');
+      advertisementForm.classList.remove('ad-form--disabled');
       var mapPinCollection = pinList.querySelectorAll('.map__pin');
       for (var i = 0; i < mapPinCollection.length; i++) {
         if (!mapPinCollection[i].classList.contains('map__pin--main')) {
           pinList.removeChild(mapPinCollection[i]);
         }
       }
-      window.renderPins.renderPins(window.createAdvertisements.createAdvertisementList(advertisementQuantity));
-      enableFormElement(mainForm);
+      window.renderPins(window.createAdvertisementList(advertisementQuantity));
+      enableFormElement(advertisementForm);
       enableFormElement(mapFilterForm);
     }
   });
@@ -58,28 +58,28 @@
   mainPin.addEventListener('keydown', function (evt) {
     if (evt.keyCode === 13) {
       map.classList.remove('map--faded');
-      mainForm.classList.remove('ad-form--disabled');
+      advertisementForm.classList.remove('ad-form--disabled');
       var mapPinCollection = pinList.querySelectorAll('.map__pin');
       for (var i = 0; i < mapPinCollection.length; i++) {
         if (!mapPinCollection[i].classList.contains('map__pin--main')) {
           pinList.removeChild(mapPinCollection[i]);
         }
       }
-      window.renderPins.renderPins(window.createPins.createAdvertisementList(advertisementQuantity));
-      enableFormElement(mainForm);
+      window.renderPins(window.createAdvertisementList(advertisementQuantity));
+      enableFormElement(advertisementForm);
       enableFormElement(mapFilterForm);
     }
   });
 
 
-  var disableMainForm = function () {
+  var disableAdvertisementForm = function () {
     if (map.classList.contains('map--faded')) {
-      disableFormElement(mainForm);
+      disableFormElement(advertisementForm);
       disableFormElement(mapFilterForm);
     }
   };
 
 
-  disableMainForm();
+  disableAdvertisementForm();
 
 })();

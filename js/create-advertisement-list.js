@@ -5,39 +5,9 @@
   var map = document.querySelector('.map');
 
 
-  var pinTemplate = document.querySelector('#pin')
-    .content
-    .querySelector('.map__pin');
-
-
   var mapWidth = parseInt(getComputedStyle(map).width, 10);
 
-
-  var mainPinAddress = document.querySelector('input[name = "address"]');
-  mainPinAddress.setAttribute('disabled', true);
-
-
-  var getPinCharacteristic = function () {
-    var pinElement = pinTemplate.cloneNode();
-    pinElement.style.visibility = 'hidden';
-    pinList.appendChild(pinElement);
-
-    var modelPin = pinList.querySelector('.map__pin');
-
-    var pinWidth = modelPin.nextElementSibling.clientWidth;
-    var pinHeight = modelPin.nextElementSibling.clientHeight;
-    pinList.removeChild(modelPin.nextElementSibling);
-
-    var pinCharacteristic = {
-      height: pinHeight,
-      width: pinWidth,
-    };
-
-    return pinCharacteristic;
-  };
-
-
-  var createAdvertisementList = function (quantity) {
+  window.createAdvertisementList = function (quantity) {
     var advertisementList = [];
     for (var i = 0; i < quantity; i++) {
       var advertisement = {
@@ -60,18 +30,13 @@
         },
 
         location: {
-          x: window.utils.getRandomNumber(0 + getPinCharacteristic().width / 2, mapWidth - getPinCharacteristic().width / 2),
-          y: window.utils.getRandomNumber(130 + getPinCharacteristic().height, 630 + getPinCharacteristic().height),
+          x: window.utils.getRandomNumber(0 + window.getPinCharacteristic().width / 2, mapWidth - window.getPinCharacteristic().width / 2),
+          y: window.utils.getRandomNumber(130 + window.getPinCharacteristic().height, 630 + window.getPinCharacteristic().height),
         },
 
       };
       advertisementList.push(advertisement);
     }
     return advertisementList;
-  };
-
-  window.createAdvertisements = {
-    createAdvertisementList: createAdvertisementList,
-    getPinCharacteristic: getPinCharacteristic,
   };
 })();
