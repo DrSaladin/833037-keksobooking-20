@@ -31,7 +31,7 @@
     xhr.send();
   };
 
-  window.upload = function (data, onError, onLoad) {
+  window.upload = function (data, onLoad, onError) {
     var URL = 'https://javascript.pages.academy/keksobooking';
     var StatusCode = {
       OK: 200,

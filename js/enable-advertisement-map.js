@@ -11,8 +11,6 @@
 
   var mapFilterForm = document.querySelector('.map__filters');
 
-  var advertisementQuantity = 8;
-
 
   var disableFormElement = function (form) {
     var selects = form.querySelectorAll('select');
@@ -42,13 +40,13 @@
 
   var successHandler = function (advertisements) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < advertisementQuantity; i++) {
+    for (var i = 0; i < advertisements.length; i++) {
       fragment.appendChild(window.renderMapPin(advertisements[i]));
     }
     pinList.appendChild(fragment);
   };
 
-  var errorHandler = function (errorMessage) {
+  window.errorHandler = function (errorMessage) {
     var node = document.createElement('div');
     node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
     node.style.position = 'absolute';
@@ -70,7 +68,7 @@
           pinList.removeChild(mapPinCollection[i]);
         }
       }
-      window.load(successHandler, errorHandler);
+      window.load(successHandler, window.errorHandler);
       enableFormElement(advertisementForm);
       enableFormElement(mapFilterForm);
     }
@@ -86,7 +84,7 @@
           pinList.removeChild(mapPinCollection[i]);
         }
       }
-      window.load(successHandler, errorHandler);
+      window.load(successHandler, window.errorHandler);
       enableFormElement(advertisementForm);
       enableFormElement(mapFilterForm);
     }
