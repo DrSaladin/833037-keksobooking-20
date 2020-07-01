@@ -13,6 +13,7 @@
 
   var advertisementQuantity = 8;
 
+
   var disableFormElement = function (form) {
     var selects = form.querySelectorAll('select');
     var fieldsets = form.querySelectorAll('fieldset');
@@ -39,6 +40,26 @@
     }
   };
 
+  var successHandler = function (advertisements) {
+    var fragment = document.createDocumentFragment();
+    for (var i = 0; i < advertisementQuantity; i++) {
+      fragment.appendChild(window.renderMapPin(advertisements[i]));
+    }
+    pinList.appendChild(fragment);
+  };
+
+  var errorHandler = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
   mainPin.addEventListener('mousedown', function (evt) {
     if (evt.button === 0) {
       map.classList.remove('map--faded');
@@ -49,7 +70,7 @@
           pinList.removeChild(mapPinCollection[i]);
         }
       }
-      window.renderPins(window.createAdvertisementList(advertisementQuantity));
+      window.load(successHandler, errorHandler);
       enableFormElement(advertisementForm);
       enableFormElement(mapFilterForm);
     }
@@ -65,7 +86,7 @@
           pinList.removeChild(mapPinCollection[i]);
         }
       }
-      window.renderPins(window.createAdvertisementList(advertisementQuantity));
+      window.load(successHandler, errorHandler);
       enableFormElement(advertisementForm);
       enableFormElement(mapFilterForm);
     }
