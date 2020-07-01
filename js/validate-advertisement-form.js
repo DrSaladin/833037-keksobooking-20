@@ -79,5 +79,4 @@
   var inputAdRoomImg = adForm.querySelector('#images');
   inputAdRoomImg.setAttribute('accept', 'image/png, image/jpeg');
   inputAdAvatar.setAttribute('accept', 'image/png, image/jpeg');
-
 })();
