@@ -54,6 +54,7 @@
   var selectHousingType = mapFilter.querySelector('#housing-type');
   selectHousingType.addEventListener('change', function () {
     housingType = selectHousingType.value;
+
     updateAdvertisements();
   });
 
