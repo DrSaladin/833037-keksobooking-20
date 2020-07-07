@@ -40,11 +40,11 @@
 
   var mapFilter = document.querySelector('.map__filters');
 
-  var housingType = 'any';
-  var adPins = [];
+  var housingType = '';
+  var advertisements = [];
 
   var updateAdvertisements = function () {
-    var sameHousingType = adPins.filter(function (it) {
+    var sameHousingType = advertisements.filter(function (it) {
       return it.offer.type === housingType;
     });
 
@@ -59,7 +59,7 @@
   });
 
   var successHandler = function (data) {
-    adPins = data;
+    advertisements = data;
     updateAdvertisements();
   };
 
@@ -79,12 +79,7 @@
     if (evt.button === 0) {
       map.classList.remove('map--faded');
       advertisementForm.classList.remove('ad-form--disabled');
-      var mapPinCollection = pinList.querySelectorAll('.map__pin');
-      for (var i = 0; i < mapPinCollection.length; i++) {
-        if (!mapPinCollection[i].classList.contains('map__pin--main')) {
-          pinList.removeChild(mapPinCollection[i]);
-        }
-      }
+      window.deletePins();
       window.load(successHandler, errorHandler);
       enableFormElement(advertisementForm);
       enableFormElement(mapFilterForm);
@@ -95,12 +90,7 @@
     if (evt.keyCode === 13) {
       map.classList.remove('map--faded');
       advertisementForm.classList.remove('ad-form--disabled');
-      var mapPinCollection = pinList.querySelectorAll('.map__pin');
-      for (var i = 0; i < mapPinCollection.length; i++) {
-        if (!mapPinCollection[i].classList.contains('map__pin--main')) {
-          pinList.removeChild(mapPinCollection[i]);
-        }
-      }
+      window.deletePins();
       window.load(successHandler, errorHandler);
       enableFormElement(advertisementForm);
       enableFormElement(mapFilterForm);
