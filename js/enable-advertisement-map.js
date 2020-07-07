@@ -38,15 +38,32 @@
     }
   };
 
-  var successHandler = function (advertisements) {
-    var fragment = document.createDocumentFragment();
-    for (var i = 0; i < advertisements.length; i++) {
-      fragment.appendChild(window.renderMapPin(advertisements[i]));
-    }
-    pinList.appendChild(fragment);
+  var mapFilter = document.querySelector('.map__filters');
+
+  var housingType = '';
+  var advertisements = [];
+
+  var updateAdvertisements = function () {
+    var sameHousingType = advertisements.filter(function (it) {
+      return it.offer.type === housingType;
+    });
+
+    window.renderMapPins(sameHousingType);
   };
 
-  window.errorHandler = function (errorMessage) {
+  var selectHousingType = mapFilter.querySelector('#housing-type');
+  selectHousingType.addEventListener('change', function () {
+    housingType = selectHousingType.value;
+
+    updateAdvertisements();
+  });
+
+  var successHandler = function (data) {
+    advertisements = data;
+    updateAdvertisements();
+  };
+
+  var errorHandler = function (errorMessage) {
     var node = document.createElement('div');
     node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
     node.style.position = 'absolute';
@@ -62,13 +79,8 @@
     if (evt.button === 0) {
       map.classList.remove('map--faded');
       advertisementForm.classList.remove('ad-form--disabled');
-      var mapPinCollection = pinList.querySelectorAll('.map__pin');
-      for (var i = 0; i < mapPinCollection.length; i++) {
-        if (!mapPinCollection[i].classList.contains('map__pin--main')) {
-          pinList.removeChild(mapPinCollection[i]);
-        }
-      }
-      window.load(successHandler, window.errorHandler);
+      window.deletePins();
+      window.load(successHandler, errorHandler);
       enableFormElement(advertisementForm);
       enableFormElement(mapFilterForm);
     }
@@ -78,13 +90,8 @@
     if (evt.keyCode === 13) {
       map.classList.remove('map--faded');
       advertisementForm.classList.remove('ad-form--disabled');
-      var mapPinCollection = pinList.querySelectorAll('.map__pin');
-      for (var i = 0; i < mapPinCollection.length; i++) {
-        if (!mapPinCollection[i].classList.contains('map__pin--main')) {
-          pinList.removeChild(mapPinCollection[i]);
-        }
-      }
-      window.load(successHandler, window.errorHandler);
+      window.deletePins();
+      window.load(successHandler, errorHandler);
       enableFormElement(advertisementForm);
       enableFormElement(mapFilterForm);
     }
