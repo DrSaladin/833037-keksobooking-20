@@ -7,8 +7,6 @@
 
   mainPin.setAttribute('tabIndex', 0);
 
-  var pinQuantity = 5;
-
   var advertisementForm = document.querySelector('.ad-form');
 
   var mapFilterForm = document.querySelector('.map__filters');
@@ -41,42 +39,27 @@
   };
 
   var mapFilter = document.querySelector('.map__filters');
-  var mapFilterSelects = mapFilter.querySelectorAll('select');
 
-  var selectHousingType = mapFilter.querySelector('#housing-type');
-
+  var housingType = 'any';
   var adPins = [];
 
-  var filterPins = function (array) {
-    mapFilterSelects.forEach(function (mapFilterSelect) {
-      mapFilterSelect.addEventListener('change', function () {
-        var mapPinCollection = pinList.querySelectorAll('.map__pin');
-        mapPinCollection.forEach(function (singlePin) {
-          if (!singlePin.classList.contains('map__pin--main')) {
-            pinList.removeChild(singlePin);
-          }
-        });
-        var fragment = document.createDocumentFragment();
-        array.forEach(function (adPin) {
-          if (adPin.offer.type === selectHousingType.value) {
-            fragment.appendChild(window.renderMapPin(adPin));
-          }
-        });
-        pinList.appendChild(fragment);
-      });
-    }
-    );
+  var updateAdvertisements = function () {
+    var sameHousingType = adPins.filter(function (it) {
+      return it.offer.type === housingType;
+    });
+
+    window.renderMapPins(sameHousingType);
   };
 
+  var selectHousingType = mapFilter.querySelector('#housing-type');
+  selectHousingType.addEventListener('change', function () {
+    housingType = selectHousingType.value;
+    updateAdvertisements();
+  });
 
   var successHandler = function (data) {
     adPins = data;
-    var fragment = document.createDocumentFragment();
-    for (var i = 0; i < pinQuantity; i++) {
-      fragment.appendChild(window.renderMapPin(data[i]));
-    }
-    pinList.appendChild(fragment);
-    filterPins(adPins);
+    updateAdvertisements();
   };
 
   var errorHandler = function (errorMessage) {
