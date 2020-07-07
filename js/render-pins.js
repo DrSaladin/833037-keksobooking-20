@@ -35,7 +35,7 @@
   window.renderMapPins = function (data) {
     var fragment = document.createDocumentFragment();
     var takeNumber = data.length > maxPinQuantity ? maxPinQuantity : data.length;
-    window.deleteUselessPins();
+    window.deletePins();
     for (var j = 0; j < takeNumber; j++) {
       fragment.appendChild(renderMapPin(data[j]));
     }
