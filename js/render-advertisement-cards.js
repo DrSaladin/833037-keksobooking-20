@@ -29,7 +29,7 @@
 
     adCardElement.querySelector('.popup__title').textContent = data.offer.title;
     adCardElement.querySelector('.popup__text--address').textContent = data.offer.address;
-    adCardElement.querySelector('.popup__text--price').textContent = data.offer.price;
+    adCardElement.querySelector('.popup__text--price').textContent = data.offer.price + '₽/ночь';
 
     switch (data.offer.type) {
       case 'palace':
