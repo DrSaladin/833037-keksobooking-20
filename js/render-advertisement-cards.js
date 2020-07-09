@@ -18,53 +18,63 @@
     }
   };
 
-  var adPhotoTemplate = adCardTemplate.querySelector('.popup__photos');
-
   var renderAdCard = function (data) {
-    var adCardElement = adCardTemplate.cloneNode(true);
-    var adGalleryElement = adPhotoTemplate.cloneNode(true);
+    var сardElement = adCardTemplate.cloneNode(true);
 
-    adCardElement.querySelector('.popup__avatar').src = data.author.avatar;
-    adCardElement.querySelector('.popup__avatar').alt = data.offer.title;
+    сardElement.querySelector('.popup__avatar').src = data.author.avatar;
+    сardElement.querySelector('.popup__avatar').alt = data.offer.title;
 
-    adCardElement.querySelector('.popup__title').textContent = data.offer.title;
-    adCardElement.querySelector('.popup__text--address').textContent = data.offer.address;
-    adCardElement.querySelector('.popup__text--price').textContent = data.offer.price + '₽/ночь';
+    сardElement.querySelector('.popup__title').textContent = data.offer.title;
+    сardElement.querySelector('.popup__text--address').textContent = data.offer.address;
+    сardElement.querySelector('.popup__text--price').textContent = data.offer.price + '₽/ночь';
 
     switch (data.offer.type) {
       case 'palace':
-        adCardElement.querySelector('.popup__type').textContent = 'Дворец';
+        сardElement.querySelector('.popup__type').textContent = 'Дворец';
         break;
       case 'flat':
-        adCardElement.querySelector('.popup__type').textContent = 'Квартира';
+        сardElement.querySelector('.popup__type').textContent = 'Квартира';
         break;
       case 'house':
-        adCardElement.querySelector('.popup__type').textContent = 'Дом';
+        сardElement.querySelector('.popup__type').textContent = 'Дом';
         break;
       case 'bungalo':
-        adCardElement.querySelector('.popup__type').textContent = 'Бунгало';
+        сardElement.querySelector('.popup__type').textContent = 'Бунгало';
     }
 
 
-    adCardElement.querySelector('.popup__text--capacity').textContent = data.offer.rooms + ' комнаты для ' + data.offer.guests + ' гостей';
-    adCardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + data.offer.checkin + ', выезд до ' + data.offer.checkout;
+    сardElement.querySelector('.popup__text--capacity').textContent = data.offer.rooms + ' комнаты для ' + data.offer.guests + ' гостей';
+    сardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + data.offer.checkin + ', выезд до ' + data.offer.checkout;
 
-    var featureCollection = adCardElement.querySelectorAll('.popup__feature');
+    var featureCollection = сardElement.querySelectorAll('.popup__feature');
     for (var i = 0; i < featureCollection.length; i++) {
       if (featureCollection[i].indexOf === data.offer.features[i]) {
         featureCollection[i].style.backgroundColor = '#ff5635';
       }
     }
 
-    adCardElement.querySelector('.popup__description').textContent = data.offer.description;
+    сardElement.querySelector('.popup__description').textContent = data.offer.description;
 
-    for (var j = 0; j < data.offer.photos.length; j++) {
-      adGalleryElement.querySelector('img').src = data.offer.photos[j];
-      adGalleryElement.appendChild(adGalleryElement.querySelector('img'));
+    var gallery = сardElement.querySelector('.popup__photos');
+
+    if (data.offer.photos.length === 0) {
+      var photoCollection = сardElement.querySelectorAll('.popup__photo');
+      for (var k = 0; k < photoCollection.length; k++) {
+        gallery.removeChild(photoCollection[k]);
+      }
+    } else {
+      for (var l = 0; l < data.offer.photos.length; l++) {
+        var img = document.createElement('img');
+        img.alt = 'Фотография жилья';
+        img.width = '45';
+        img.height = '40';
+        img.classList.add('popup__photo');
+        img.src = data.offer.photos[l];
+        gallery.appendChild(img);
+      }
     }
 
-
-    return adCardElement;
+    return сardElement;
   };
 
 
