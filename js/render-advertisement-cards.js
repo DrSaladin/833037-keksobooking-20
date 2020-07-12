@@ -90,6 +90,7 @@
 
     сardElement.querySelector('.popup__description').textContent = data.offer.description;
 
+
     var gallery = сardElement.querySelector('.popup__photos');
     for (var l = 0; l < data.offer.photos.length; l++) {
       var photoElement = adPhotoTemplate.cloneNode(true);
@@ -100,12 +101,17 @@
     return сardElement;
   };
 
+  var adPhotoGallery = document.querySelector('#card')
+    .content
+    .querySelector('.popup__photos');
+
+  adPhotoGallery.removeChild(adPhotoTemplate);
+
 
   window.renderAdCards = function (data) {
     var fragment = document.createDocumentFragment();
     var takeNumber = data.length > maxCardQuantity ? maxCardQuantity : data.length;
     window.deleteAdCards();
-    adPhotoTemplate.setAttribute('hidden', true);
     for (var i = 0; i < takeNumber; i++) {
       fragment.appendChild(renderAdCard(data[i]));
     }
@@ -113,4 +119,5 @@
     onCloseClick();
     onEscPress();
   };
+
 })();
