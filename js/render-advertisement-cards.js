@@ -51,10 +51,6 @@
     .content
     .querySelector('.popup__photo');
 
-  var adPhotoGallery = document.querySelector('#card')
-    .content
-    .querySelector('.popup__photos');
-
 
   var renderAdCard = function (data) {
     var сardElement = adCardTemplate.cloneNode(true);

@@ -72,7 +72,6 @@
   formTimeDependency(checkOut, checkOut, checkIn);
 
 
-
   var inputAdHousingType = adForm.querySelector('#type');
 
   inputAdHousingType.addEventListener('change', function () {
