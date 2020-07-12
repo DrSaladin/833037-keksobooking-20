@@ -7,6 +7,7 @@
     .content
     .querySelector('.map__card');
 
+
   var adMap = document.querySelector('.map');
 
   var mapFilter = document.querySelector('.map__filters-container');
@@ -18,8 +19,46 @@
     }
   };
 
+
+  var onCloseClick = function () {
+    var cardClose = adMap.querySelectorAll('.popup__close');
+    var adCardCollection = document.querySelectorAll('.map__card');
+    for (var i = 0; i < cardClose.length; i++) {
+      cardClose[i].addEventListener('click', function () {
+        for (var j = 0; j < cardClose.length; j++) {
+          adCardCollection[j].setAttribute('hidden', true);
+        }
+      });
+    }
+  };
+
+
+  var onEscPress = function () {
+    var adCardCollection = document.querySelectorAll('.map__card');
+    for (var i = 0; i < adCardCollection.length; i++) {
+      window.addEventListener('keydown', function (evt) {
+        if (evt.keyCode === 27) {
+          for (var j = 0; j < adCardCollection.length; j++) {
+            adCardCollection[j].setAttribute('hidden', true);
+          }
+        }
+      });
+    }
+  };
+
+
+  var adPhotoTemplate = document.querySelector('#card')
+    .content
+    .querySelector('.popup__photo');
+
+  var adPhotoGallery = document.querySelector('#card')
+    .content
+    .querySelector('.popup__photos');
+
+
   var renderAdCard = function (data) {
     var сardElement = adCardTemplate.cloneNode(true);
+
 
     сardElement.querySelector('.popup__avatar').src = data.author.avatar;
     сardElement.querySelector('.popup__avatar').alt = data.offer.title;
@@ -56,22 +95,10 @@
     сardElement.querySelector('.popup__description').textContent = data.offer.description;
 
     var gallery = сardElement.querySelector('.popup__photos');
-
-    if (data.offer.photos.length === 0) {
-      var photoCollection = сardElement.querySelectorAll('.popup__photo');
-      for (var k = 0; k < photoCollection.length; k++) {
-        gallery.removeChild(photoCollection[k]);
-      }
-    } else {
-      for (var l = 0; l < data.offer.photos.length; l++) {
-        var img = document.createElement('img');
-        img.alt = 'Фотография жилья';
-        img.width = '45';
-        img.height = '40';
-        img.classList.add('popup__photo');
-        img.src = data.offer.photos[l];
-        gallery.appendChild(img);
-      }
+    for (var l = 0; l < data.offer.photos.length; l++) {
+      var photoElement = adPhotoTemplate.cloneNode(true);
+      photoElement.src = data.offer.photos[l];
+      gallery.appendChild(photoElement);
     }
 
     return сardElement;
@@ -82,11 +109,12 @@
     var fragment = document.createDocumentFragment();
     var takeNumber = data.length > maxCardQuantity ? maxCardQuantity : data.length;
     window.deleteAdCards();
+    adPhotoTemplate.setAttribute('hidden', true);
     for (var i = 0; i < takeNumber; i++) {
       fragment.appendChild(renderAdCard(data[i]));
     }
     mapFilter.before(fragment);
+    onCloseClick();
+    onEscPress();
   };
-
-
 })();

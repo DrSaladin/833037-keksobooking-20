@@ -25,6 +25,7 @@
   var minPrice = 0;
 
   var selectAdPrice = adForm.querySelector('#price');
+  selectAdPrice.setAttribute('placeholder', '1000');
   selectAdPrice.required = true;
   selectAdPrice.setAttribute('max', window.utils.MAX_PRICE.toString());
   selectAdPrice.addEventListener('input', function () {
@@ -38,7 +39,7 @@
   var selectAdRoomNumber = adForm.querySelector('#room_number');
   var selectAdGuestNumber = adForm.querySelector('#capacity');
 
-  selectAdRoomNumber.addEventListener('change', function () {
+  adForm.addEventListener('change', function () {
     if (selectAdRoomNumber.value === '1' && selectAdGuestNumber.value > '1') {
       selectAdGuestNumber.setCustomValidity('Доступна опция "Для одного гостя"');
     } else if (selectAdRoomNumber.value === '2' && selectAdGuestNumber.value > '2') {
@@ -51,6 +52,26 @@
       selectAdGuestNumber.setCustomValidity('');
     }
   });
+
+
+  var checkIn = adForm.querySelector('#timein');
+  var checkOut = adForm.querySelector('#timeout');
+  var formTimeDependency = function (listenedElement, leadElement, dependentElement) {
+    listenedElement.addEventListener('change', function () {
+      if (leadElement.value === '12:00') {
+        dependentElement.value = leadElement.value;
+      } else if (leadElement.value === '13:00') {
+        dependentElement.value = leadElement.value;
+      } else if (leadElement.value === '14:00') {
+        dependentElement.value = leadElement.value;
+      }
+    });
+  };
+
+  formTimeDependency(checkIn, checkIn, checkOut);
+  formTimeDependency(checkOut, checkOut, checkIn);
+
+
 
   var inputAdHousingType = adForm.querySelector('#type');
 
