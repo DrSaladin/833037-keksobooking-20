@@ -12,13 +12,13 @@
   var mainPinAddress = document.querySelector('input[name = "address"]');
   mainPinAddress.setAttribute('disabled', true);
 
-  var renderMapPin = function (essence) {
+  var renderMapPin = function (data) {
     var pinElement = pinTemplate.cloneNode(true);
 
-    pinElement.querySelector('img').alt = essence.offer.title;
-    pinElement.querySelector('img').src = essence.author.avatar;
-    pinElement.style.left = essence.location.x + 'px';
-    pinElement.style.top = essence.location.y + 'px';
+    pinElement.querySelector('img').alt = data.offer.title;
+    pinElement.querySelector('img').src = data.author.avatar;
+    pinElement.style.left = data.location.x + 'px';
+    pinElement.style.top = data.location.y + 'px';
 
     return pinElement;
   };

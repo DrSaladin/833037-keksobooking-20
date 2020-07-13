@@ -56,20 +56,26 @@
 
   var checkIn = adForm.querySelector('#timein');
   var checkOut = adForm.querySelector('#timeout');
-  var formTimeDependency = function (listenedElement, leadElement, dependentElement) {
-    listenedElement.addEventListener('change', function () {
-      if (leadElement.value === '12:00') {
-        dependentElement.value = leadElement.value;
-      } else if (leadElement.value === '13:00') {
-        dependentElement.value = leadElement.value;
-      } else if (leadElement.value === '14:00') {
-        dependentElement.value = leadElement.value;
-      }
-    });
-  };
 
-  formTimeDependency(checkIn, checkIn, checkOut);
-  formTimeDependency(checkOut, checkOut, checkIn);
+  checkIn.addEventListener('change', function () {
+    if (checkIn.value === '12:00') {
+      checkOut.value = checkIn.value;
+    } else if (checkIn.value === '13:00') {
+      checkOut.value = checkIn.value;
+    } else if (checkIn.value === '14:00') {
+      checkOut.value = checkIn.value;
+    }
+  });
+
+  checkOut.addEventListener('change', function () {
+    if (checkOut.value === '12:00') {
+      checkIn.value = checkOut.value;
+    } else if (checkOut.value === '13:00') {
+      checkIn.value = checkOut.value;
+    } else if (checkOut.value === '14:00') {
+      checkIn.value = checkOut.value;
+    }
+  });
 
 
   var inputAdHousingType = adForm.querySelector('#type');

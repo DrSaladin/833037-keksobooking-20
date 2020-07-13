@@ -38,6 +38,7 @@
     }
   };
 
+
   var mapFilter = document.querySelector('.map__filters');
 
   var housingType = '';
@@ -51,6 +52,7 @@
     window.renderMapPins(sameHousingType);
   };
 
+
   var selectHousingType = mapFilter.querySelector('#housing-type');
   selectHousingType.addEventListener('change', function () {
     housingType = selectHousingType.value;
@@ -61,6 +63,7 @@
   var successHandler = function (data) {
     advertisements = data;
     updateAdvertisements();
+    window.renderMapPins(data);
     window.renderAdCards(data);
   };
 
