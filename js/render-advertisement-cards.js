@@ -12,39 +12,9 @@
   var mapFilter = document.querySelector('.map__filters-container');
 
   window.deleteAdCards = function () {
-    var adCardCollection = document.querySelectorAll('.map__card');
-    for (var i = 0; i < adCardCollection.length; i++) {
-      adMap.removeChild(adCardCollection[i]);
-    }
-  };
-
-  var closePopup = function () {
-    var closeButtonCollection = adMap.querySelectorAll('.popup__close');
-    var adCardCollection = document.querySelectorAll('.map__card');
-    for (var j = 0; j < closeButtonCollection.length; j++) {
-      adCardCollection[j].setAttribute('hidden', true);
-    }
-  };
-
-
-  var closePopupButton = function () {
-    var closeButtonCollection = adMap.querySelectorAll('.popup__close');
-    for (var i = 0; i < closeButtonCollection.length; i++) {
-      closeButtonCollection[i].addEventListener('click', function () {
-        closePopup();
-      });
-    }
-  };
-
-
-  var closePopupEsc = function () {
-    var adCardCollection = document.querySelectorAll('.map__card');
-    for (var i = 0; i < adCardCollection.length; i++) {
-      window.addEventListener('keydown', function (evt) {
-        if (evt.keyCode === 27) {
-          closePopup();
-        }
-      });
+    var adCards = document.querySelectorAll('.map__card');
+    for (var i = 0; i < adCards.length; i++) {
+      adMap.removeChild(adCards[i]);
     }
   };
 
@@ -83,21 +53,21 @@
     cardElement.querySelector('.popup__text--capacity').textContent = data.offer.rooms + ' комнаты для ' + data.offer.guests + ' гостей';
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + data.offer.checkin + ', выезд до ' + data.offer.checkout;
 
-    var featureCollection = cardElement.querySelectorAll('.popup__feature');
-    for (var i = 0; i < featureCollection.length; i++) {
-      if (featureCollection[i].indexOf === data.offer.features[i]) {
-        featureCollection[i].style.backgroundColor = '#ff5635';
+    var features = cardElement.querySelectorAll('.popup__feature');
+    for (var i = 0; i < features.length; i++) {
+      if (features[i].indexOf === data.offer.features[i]) {
+        features[i].style.backgroundColor = '#ff5635';
       }
     }
 
     cardElement.querySelector('.popup__description').textContent = data.offer.description;
 
 
-    var popupPhotoContainer = cardElement.querySelector('.popup__photos');
+    var adCardPhotoContainer = cardElement.querySelector('.popup__photos');
     for (var j = 0; j < data.offer.photos.length; j++) {
       var photoElement = adPhotoTemplate.cloneNode(true);
       photoElement.src = data.offer.photos[j];
-      popupPhotoContainer.appendChild(photoElement);
+      adCardPhotoContainer.appendChild(photoElement);
     }
 
 
@@ -120,8 +90,36 @@
       fragment.appendChild(renderAdCard(data[i]));
     }
     mapFilter.before(fragment);
-    closePopupButton();
-    closePopupEsc();
-  };
 
+
+    var adCard = document.querySelector('.map__card');
+    var adCardCloseButton = adCard.querySelector('.popup__close');
+
+    var onCardEscPress = function (evt) {
+      if (evt.keyCode === 27) {
+        toggleAdCard();
+      }
+    };
+
+    var onCardEnterPress = function (evt) {
+      if (evt.keyCode === 13) {
+        toggleAdCard();
+      }
+    };
+
+    var toggleAdCard = function () {
+      adCard.classList.toggle('hidden');
+      if (adCard.classList.contains('hidden')) {
+        window.removeEventListener('keydown', onCardEscPress);
+        console.log('document.removeEventListener(keydown, onCardEscPress)');
+      } else {
+        window.addEventListener('keydown', onCardEscPress);
+        console.log('document.addEventListener(keydown, onCardEscPress)');
+      }
+    };
+
+
+    adCardCloseButton.addEventListener('click', toggleAdCard);
+    adCardCloseButton.addEventListener('keydown', onCardEnterPress);
+  };
 })();
