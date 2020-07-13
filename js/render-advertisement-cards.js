@@ -18,6 +18,28 @@
     }
   };
 
+  var closeAdCard = function () {
+    var adCards = document.querySelectorAll('.map__card');
+    for (var j = 0; j < adCards.length; j++) {
+      adCards[j].classList.add('hidden');
+    }
+    document.removeEventListener('keydown', onCardEscPress);
+  };
+
+  var onCardEscPress = function (evt) {
+    if (evt.keyCode === 27) {
+      closeAdCard();
+    }
+  };
+
+
+  var onCloseButtonClick = function () {
+    var closeButtons = adMap.querySelectorAll('.popup__close');
+    for (var i = 0; i < closeButtons.length; i++) {
+      closeButtons[i].addEventListener('click', closeAdCard);
+    }
+  };
+
 
   var adPhotoTemplate = document.querySelector('#card')
     .content
@@ -74,6 +96,7 @@
     return cardElement;
   };
 
+
   var adPhotoGallery = document.querySelector('#card')
     .content
     .querySelector('.popup__photos');
@@ -90,36 +113,7 @@
       fragment.appendChild(renderAdCard(data[i]));
     }
     mapFilter.before(fragment);
-
-
-    var adCard = document.querySelector('.map__card');
-    var adCardCloseButton = adCard.querySelector('.popup__close');
-
-    var onCardEscPress = function (evt) {
-      if (evt.keyCode === 27) {
-        toggleAdCard();
-      }
-    };
-
-    var onCardEnterPress = function (evt) {
-      if (evt.keyCode === 13) {
-        toggleAdCard();
-      }
-    };
-
-    var toggleAdCard = function () {
-      adCard.classList.toggle('hidden');
-      if (adCard.classList.contains('hidden')) {
-        window.removeEventListener('keydown', onCardEscPress);
-        console.log('document.removeEventListener(keydown, onCardEscPress)');
-      } else {
-        window.addEventListener('keydown', onCardEscPress);
-        console.log('document.addEventListener(keydown, onCardEscPress)');
-      }
-    };
-
-
-    adCardCloseButton.addEventListener('click', toggleAdCard);
-    adCardCloseButton.addEventListener('keydown', onCardEnterPress);
+    document.addEventListener('keydown', onCardEscPress);
+    onCloseButtonClick();
   };
 })();
