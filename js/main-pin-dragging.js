@@ -21,6 +21,10 @@
     left: mapLeftLimit,
   };
 
+  if (map.classList.contains('map--faded')) {
+    mainPinAddress.value = Math.round(parseInt(mainPin.style.top, 10) + mainPinHeight / 2) + ', ' + Math.round(parseInt(mainPin.style.left, 10) + mainPinWidth / 2);
+  }
+
   mainPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
@@ -62,8 +66,9 @@
         mainPin.style.left = leftPosition + 'px';
       }
 
-      mainPinAddress.value = (parseInt(mainPin.style.top, 10) + mainPinHeight) + ', ' + (parseInt(mainPin.style.left, 10) + mainPinWidth / 2);
+      mainPinAddress.value = Math.round(parseInt(mainPin.style.top, 10) + mainPinHeight) + ', ' + Math.round(parseInt(mainPin.style.left, 10) + mainPinWidth / 2);
     };
+
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();

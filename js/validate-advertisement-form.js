@@ -25,6 +25,7 @@
   var minPrice = 0;
 
   var selectAdPrice = adForm.querySelector('#price');
+  selectAdPrice.setAttribute('placeholder', '1000');
   selectAdPrice.required = true;
   selectAdPrice.setAttribute('max', window.utils.MAX_PRICE.toString());
   selectAdPrice.addEventListener('input', function () {
@@ -38,7 +39,7 @@
   var selectAdRoomNumber = adForm.querySelector('#room_number');
   var selectAdGuestNumber = adForm.querySelector('#capacity');
 
-  selectAdRoomNumber.addEventListener('change', function () {
+  var validateGuestSelect = function () {
     if (selectAdRoomNumber.value === '1' && selectAdGuestNumber.value > '1') {
       selectAdGuestNumber.setCustomValidity('Доступна опция "Для одного гостя"');
     } else if (selectAdRoomNumber.value === '2' && selectAdGuestNumber.value > '2') {
@@ -50,11 +51,35 @@
     } else {
       selectAdGuestNumber.setCustomValidity('');
     }
+  };
+
+  adForm.addEventListener('change', validateGuestSelect);
+
+
+  var checkIn = adForm.querySelector('#timein');
+  var checkOut = adForm.querySelector('#timeout');
+
+  var validateTimeSelect = function (benchmarkElement, dependElement) {
+    if (benchmarkElement.value === '12:00') {
+      dependElement.value = benchmarkElement.value;
+    } else if (benchmarkElement.value === '13:00') {
+      dependElement.value = benchmarkElement.value;
+    } else if (benchmarkElement.value === '14:00') {
+      dependElement.value = benchmarkElement.value;
+    }
+  };
+
+  checkIn.addEventListener('change', function () {
+    validateTimeSelect(checkIn, checkOut);
   });
+  checkOut.addEventListener('change', function () {
+    validateTimeSelect(checkOut, checkIn);
+  });
+
 
   var inputAdHousingType = adForm.querySelector('#type');
 
-  inputAdHousingType.addEventListener('change', function () {
+  var validateHousingTypeSelect = function () {
     if (inputAdHousingType.value === 'bungalo') {
       minPrice = 0;
       selectAdPrice.setAttribute('min', minPrice.toString());
@@ -72,7 +97,9 @@
       selectAdPrice.setAttribute('min', minPrice.toString());
       selectAdPrice.setAttribute('placeholder', window.utils.MIN_PALACE_PRICE.toString());
     }
-  });
+  };
+
+  inputAdHousingType.addEventListener('change', validateHousingTypeSelect);
 
 
   var inputAdAvatar = adForm.querySelector('#avatar');
