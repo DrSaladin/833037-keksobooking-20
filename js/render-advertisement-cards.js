@@ -106,12 +106,8 @@
 
   window.renderAdCards = function (data) {
     var fragment = document.createDocumentFragment();
-    var cardQuantity = 1;
     window.deleteAdCards();
-
-    for (var i = 0; i < cardQuantity; i++) {
-      fragment.appendChild(renderAdCard(data[i]));
-    }
+    fragment.appendChild(renderAdCard(data[0]));
     mapFilter.before(fragment);
     document.addEventListener('keydown', onCardEscPress);
     onCloseButtonClick();

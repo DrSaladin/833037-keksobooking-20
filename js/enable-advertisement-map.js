@@ -63,8 +63,8 @@
   var successHandler = function (data) {
     advertisements = data;
     updateAdvertisements();
-    window.renderMapPins(data);
     window.renderAdCards(data);
+    window.renderMapPins(data);
   };
 
   var errorHandler = function (errorMessage) {
