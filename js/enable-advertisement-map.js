@@ -44,6 +44,7 @@
   var housingType = '';
   var advertisements = [];
 
+
   var updateAdvertisements = function () {
     var sameHousingType = advertisements.filter(function (it) {
       return it.offer.type === housingType;
@@ -60,11 +61,10 @@
     updateAdvertisements();
   });
 
+
   var successHandler = function (data) {
     advertisements = data;
     updateAdvertisements();
-    window.renderAdCards(data);
-    window.renderMapPins(data);
   };
 
   var errorHandler = function (errorMessage) {
@@ -79,11 +79,11 @@
     document.body.insertAdjacentElement('afterbegin', node);
   };
 
+
   mainPin.addEventListener('mousedown', function (evt) {
     if (evt.button === 0) {
       map.classList.remove('map--faded');
       advertisementForm.classList.remove('ad-form--disabled');
-      window.deletePins();
       window.load(successHandler, errorHandler);
       enableFormElement(advertisementForm);
       enableFormElement(mapFilterForm);
@@ -94,7 +94,6 @@
     if (evt.keyCode === 13) {
       map.classList.remove('map--faded');
       advertisementForm.classList.remove('ad-form--disabled');
-      window.deletePins();
       window.load(successHandler, errorHandler);
       enableFormElement(advertisementForm);
       enableFormElement(mapFilterForm);

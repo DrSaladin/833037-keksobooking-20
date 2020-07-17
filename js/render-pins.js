@@ -20,6 +20,8 @@
     pinElement.style.left = data.location.x + 'px';
     pinElement.style.top = data.location.y + 'px';
 
+    pinElement.id = data.id;
+
     return pinElement;
   };
 
@@ -32,6 +34,29 @@
     }
   };
 
+  var pinId = '';
+  var renderClickedCard = function (data) {
+    var filterCards = data.filter(function (it) {
+      return it.id.toString() === pinId;
+    });
+
+    window.renderAdCards(filterCards);
+  };
+
+  var onPinClick = function (data) {
+    var mapPinCollection = pinList.querySelectorAll('.map__pin');
+    for (var i = 0; i < mapPinCollection.length; i++) {
+      if (!mapPinCollection[i].classList.contains('map__pin--main')) {
+        mapPinCollection[i].addEventListener('click', function (evt) {
+          pinId = evt.currentTarget.id;
+
+          renderClickedCard(data);
+        });
+      }
+    }
+  };
+
+
   window.renderMapPins = function (data) {
     var fragment = document.createDocumentFragment();
     var takeNumber = data.length > maxPinQuantity ? maxPinQuantity : data.length;
@@ -40,5 +65,6 @@
       fragment.appendChild(renderMapPin(data[j]));
     }
     pinList.appendChild(fragment);
+    onPinClick(data);
   };
 })();

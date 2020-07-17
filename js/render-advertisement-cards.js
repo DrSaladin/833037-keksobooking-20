@@ -49,6 +49,7 @@
   var renderAdCard = function (data) {
     var cardElement = adCardTemplate.cloneNode(true);
 
+    // cardElement.id = data.id;
 
     cardElement.querySelector('.popup__avatar').src = data.author.avatar;
     cardElement.querySelector('.popup__avatar').alt = data.offer.title;
@@ -91,7 +92,6 @@
       photoElement.src = data.offer.photos[j];
       adCardPhotoContainer.appendChild(photoElement);
     }
-
 
     return cardElement;
   };

@@ -13,6 +13,9 @@
 
     xhr.addEventListener('load', function () {
       if (xhr.status === StatusCode.OK) {
+        for (var i = 0; i < xhr.response.length; i++) {
+          xhr.response[i].id = i;
+        }
         onLoad(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
@@ -31,6 +34,33 @@
     xhr.send();
   };
 
+  var errorPopupTemplate = document.querySelector('#error')
+    .content
+    .querySelector('.error');
+
+  var pageMain = document.querySelector('main');
+
+  var closeErrorPopup = function () {
+    var errorPopup = document.querySelector('.error');
+    errorPopup.classList.add('hidden');
+    errorPopup.setAttribute('tabindex', '0');
+
+    window.removeEventListener('keydown', onErrorPopupEscPress);
+    document.removeEventListener('click', closeErrorPopup);
+  };
+
+  var onErrorPopupEscPress = function (evt) {
+    if (evt.keyCode === 27) {
+      closeErrorPopup();
+    }
+  };
+
+
+  var renderErrorPopup = function () {
+    var cardElement = errorPopupTemplate.cloneNode(true);
+    pageMain.appendChild(cardElement);
+  };
+
   window.upload = function (data, onLoad, onError) {
     var URL = 'https://javascript.pages.academy/keksobooking';
     var StatusCode = {
@@ -45,7 +75,11 @@
       if (xhr.status === StatusCode.OK) {
         onLoad(xhr.response);
       } else {
-        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+        renderErrorPopup();
+        var popupCloseButton = document.querySelector('.error__button');
+        popupCloseButton.addEventListener('click', closeErrorPopup);
+        window.addEventListener('keydown', onErrorPopupEscPress);
+        document.addEventListener('click', closeErrorPopup);
       }
     });
     xhr.addEventListener('error', function () {
