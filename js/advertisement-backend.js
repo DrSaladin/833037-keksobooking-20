@@ -14,7 +14,7 @@
     xhr.addEventListener('load', function () {
       if (xhr.status === StatusCode.OK) {
         for (var i = 0; i < xhr.response.length; i++) {
-          xhr.response[i].id = i;
+          xhr.response[i].id = 'advertisementNo' + i;
         }
         onLoad(xhr.response);
       } else {
