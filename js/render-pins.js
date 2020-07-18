@@ -2,7 +2,7 @@
 
 (function () {
 
-  var maxPinQuantity = 5;
+  var MAX_PIN_QUANTITY = 5;
   var pinList = document.querySelector('.map__pins');
 
   var pinTemplate = document.querySelector('#pin')
@@ -20,7 +20,7 @@
     pinElement.style.left = data.location.x + 'px';
     pinElement.style.top = data.location.y + 'px';
 
-    pinElement.id = data.id;
+    // pinElement.id = data.id;
 
     return pinElement;
   };
@@ -56,15 +56,17 @@
     }
   };
 
+  console.log(window.load);
+
 
   window.renderMapPins = function (data) {
     var fragment = document.createDocumentFragment();
-    var takeNumber = data.length > maxPinQuantity ? maxPinQuantity : data.length;
+    var takeNumber = data.length > MAX_PIN_QUANTITY ? MAX_PIN_QUANTITY : data.length;
     window.deletePins();
     for (var j = 0; j < takeNumber; j++) {
       fragment.appendChild(renderMapPin(data[j]));
     }
     pinList.appendChild(fragment);
-    onPinClick(data);
+    // onPinClick(data);
   };
 })();

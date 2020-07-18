@@ -64,6 +64,7 @@
 
   var successHandler = function (data) {
     advertisements = data;
+    window.renderAdCards(data);
     updateAdvertisements();
   };
 

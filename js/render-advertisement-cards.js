@@ -49,6 +49,7 @@
   var renderAdCard = function (data) {
     var cardElement = adCardTemplate.cloneNode(true);
 
+
     cardElement.querySelector('.popup__avatar').src = data.author.avatar;
     cardElement.querySelector('.popup__avatar').alt = data.offer.title;
 

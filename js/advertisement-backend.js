@@ -13,9 +13,9 @@
 
     xhr.addEventListener('load', function () {
       if (xhr.status === StatusCode.OK) {
-        for (var i = 0; i < xhr.response.length; i++) {
+        /* for (var i = 0; i < xhr.response.length; i++) {
           xhr.response[i].id = 'advertisementNo' + i;
-        }
+        } */
         onLoad(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
@@ -45,11 +45,11 @@
     errorPopup.classList.add('hidden');
     errorPopup.setAttribute('tabindex', '0');
 
-    window.removeEventListener('keydown', onErrorPopupEscPress);
+    window.removeEventListener('keydown', onPopupEscPress);
     document.removeEventListener('click', closeErrorPopup);
   };
 
-  var onErrorPopupEscPress = function (evt) {
+  var onPopupEscPress = function (evt) {
     if (evt.keyCode === 27) {
       closeErrorPopup();
     }
@@ -57,8 +57,28 @@
 
 
   var renderErrorPopup = function () {
-    var cardElement = errorPopupTemplate.cloneNode(true);
-    pageMain.appendChild(cardElement);
+    var popupElement = errorPopupTemplate.cloneNode(true);
+    pageMain.appendChild(popupElement);
+  };
+
+
+  var successPopupTemplate = document.querySelector('#success')
+    .content
+    .querySelector('.success');
+
+
+  var closeSuccessPopup = function () {
+    var successPopup = document.querySelector('.success');
+    successPopup.classList.add('hidden');
+
+    window.removeEventListener('keydown', onPopupEscPress);
+    document.removeEventListener('click', closeSuccessPopup);
+  };
+
+
+  var renderSuccessPopup = function () {
+    var popupElement = successPopupTemplate.cloneNode(true);
+    pageMain.appendChild(popupElement);
   };
 
   window.upload = function (data, onLoad, onError) {
@@ -74,11 +94,14 @@
     xhr.addEventListener('load', function () {
       if (xhr.status === StatusCode.OK) {
         onLoad(xhr.response);
+        renderSuccessPopup();
+        window.addEventListener('keydown', onPopupEscPress);
+        document.addEventListener('click', closeSuccessPopup);
       } else {
         renderErrorPopup();
-        var popupCloseButton = document.querySelector('.error__button');
-        popupCloseButton.addEventListener('click', closeErrorPopup);
-        window.addEventListener('keydown', onErrorPopupEscPress);
+        var errorPopupCloseButton = document.querySelector('.error__button');
+        errorPopupCloseButton.addEventListener('click', closeErrorPopup);
+        window.addEventListener('keydown', onPopupEscPress);
         document.addEventListener('click', closeErrorPopup);
       }
     });
