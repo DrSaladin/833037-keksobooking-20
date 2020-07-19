@@ -39,6 +39,9 @@
     .content
     .querySelector('.success');
 
+  var successPopup = document.querySelector('.success');
+  var errorPopup = document.querySelector('.error');
+
 
   window.upload = function (data, onLoad, onError) {
     var URL = 'https://javascript.pages.academy/keksobooking';
@@ -54,22 +57,19 @@
       if (xhr.status === StatusCode.OK) {
         onLoad(xhr.response);
         window.renderPopup(successPopupTemplate);
-        window.addEventListener('keydown', window.onPopupEscPress);
-        document.addEventListener('click', function () {
-          window.closeStatusPopup('.success');
-        });
+        document.addEventListener('keydown', window.onSuccessPopupEscPress);
+        document.addEventListener('click', window.onSuccessPopupClick);
       } else {
         window.renderPopup(errorPopupTemplate);
         var errorPopupCloseButton = document.querySelector('.error__button');
         errorPopupCloseButton.addEventListener('click', function () {
-          window.closeStatusPopup('.error');
+          window.closeErrorPopup('.error');
         });
-        window.addEventListener('keydown', window.onPopupEscPress);
-        document.addEventListener('click', function () {
-          window.closeStatusPopup('.error');
-        });
+        document.addEventListener('keydown', window.onErrorPopupEscPress);
+        document.addEventListener('click', window.onErrorPopupClick);
       }
     });
+
     xhr.addEventListener('error', function () {
       onError('Произошла ошибка соединения');
     });
