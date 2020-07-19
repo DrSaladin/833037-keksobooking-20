@@ -13,10 +13,7 @@
 
     xhr.addEventListener('load', function () {
       if (xhr.status === StatusCode.OK) {
-        /* for (var i = 0; i < xhr.response.length; i++) {
-          xhr.response[i].id = 'advertisementNo' + i;
-        } */
-        onLoad(xhr.response);
+        onLoad(window.createAdArray(xhr.response));
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
@@ -38,48 +35,10 @@
     .content
     .querySelector('.error');
 
-  var pageMain = document.querySelector('main');
-
-  var closeErrorPopup = function () {
-    var errorPopup = document.querySelector('.error');
-    errorPopup.classList.add('hidden');
-    errorPopup.setAttribute('tabindex', '0');
-
-    window.removeEventListener('keydown', onPopupEscPress);
-    document.removeEventListener('click', closeErrorPopup);
-  };
-
-  var onPopupEscPress = function (evt) {
-    if (evt.keyCode === 27) {
-      closeErrorPopup();
-    }
-  };
-
-
-  var renderErrorPopup = function () {
-    var popupElement = errorPopupTemplate.cloneNode(true);
-    pageMain.appendChild(popupElement);
-  };
-
-
   var successPopupTemplate = document.querySelector('#success')
     .content
     .querySelector('.success');
 
-
-  var closeSuccessPopup = function () {
-    var successPopup = document.querySelector('.success');
-    successPopup.classList.add('hidden');
-
-    window.removeEventListener('keydown', onPopupEscPress);
-    document.removeEventListener('click', closeSuccessPopup);
-  };
-
-
-  var renderSuccessPopup = function () {
-    var popupElement = successPopupTemplate.cloneNode(true);
-    pageMain.appendChild(popupElement);
-  };
 
   window.upload = function (data, onLoad, onError) {
     var URL = 'https://javascript.pages.academy/keksobooking';
@@ -94,15 +53,21 @@
     xhr.addEventListener('load', function () {
       if (xhr.status === StatusCode.OK) {
         onLoad(xhr.response);
-        renderSuccessPopup();
-        window.addEventListener('keydown', onPopupEscPress);
-        document.addEventListener('click', closeSuccessPopup);
+        window.renderPopup(successPopupTemplate);
+        window.addEventListener('keydown', window.onPopupEscPress);
+        document.addEventListener('click', function () {
+          window.closeStatusPopup('.success');
+        });
       } else {
-        renderErrorPopup();
+        window.renderPopup(errorPopupTemplate);
         var errorPopupCloseButton = document.querySelector('.error__button');
-        errorPopupCloseButton.addEventListener('click', closeErrorPopup);
-        window.addEventListener('keydown', onPopupEscPress);
-        document.addEventListener('click', closeErrorPopup);
+        errorPopupCloseButton.addEventListener('click', function () {
+          window.closeStatusPopup('.error');
+        });
+        window.addEventListener('keydown', window.onPopupEscPress);
+        document.addEventListener('click', function () {
+          window.closeStatusPopup('.error');
+        });
       }
     });
     xhr.addEventListener('error', function () {

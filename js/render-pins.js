@@ -14,13 +14,12 @@
 
   var renderMapPin = function (data) {
     var pinElement = pinTemplate.cloneNode(true);
+    pinElement.id = data.adId.id;
 
     pinElement.querySelector('img').alt = data.offer.title;
     pinElement.querySelector('img').src = data.author.avatar;
     pinElement.style.left = data.location.x + 'px';
     pinElement.style.top = data.location.y + 'px';
-
-    // pinElement.id = data.id;
 
     return pinElement;
   };
@@ -34,12 +33,10 @@
     }
   };
 
-  var pinId = '';
-  var renderClickedCard = function (data) {
+  var renderClickedCard = function (data, evt) {
     var filterCards = data.filter(function (it) {
-      return it.id.toString() === pinId;
+      return it.adId.id === evt.currentTarget.id;
     });
-
     window.renderAdCards(filterCards);
   };
 
@@ -48,15 +45,11 @@
     for (var i = 0; i < mapPinCollection.length; i++) {
       if (!mapPinCollection[i].classList.contains('map__pin--main')) {
         mapPinCollection[i].addEventListener('click', function (evt) {
-          pinId = evt.currentTarget.id;
-
-          renderClickedCard(data);
+          renderClickedCard(data, evt);
         });
       }
     }
   };
-
-  console.log(window.load);
 
 
   window.renderMapPins = function (data) {
@@ -67,6 +60,6 @@
       fragment.appendChild(renderMapPin(data[j]));
     }
     pinList.appendChild(fragment);
-    // onPinClick(data);
+    onPinClick(data);
   };
 })();
