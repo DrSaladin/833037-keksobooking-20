@@ -13,7 +13,7 @@
 
     xhr.addEventListener('load', function () {
       if (xhr.status === StatusCode.OK) {
-        onLoad(window.createAdArray(xhr.response));
+        onLoad(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
@@ -38,9 +38,6 @@
   var successPopupTemplate = document.querySelector('#success')
     .content
     .querySelector('.success');
-
-  var successPopup = document.querySelector('.success');
-  var errorPopup = document.querySelector('.error');
 
 
   window.upload = function (data, onLoad, onError) {

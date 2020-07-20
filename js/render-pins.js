@@ -14,7 +14,7 @@
 
   var renderMapPin = function (data) {
     var pinElement = pinTemplate.cloneNode(true);
-    pinElement.id = data.adId.id;
+    pinElement.id = data.id;
 
     pinElement.querySelector('img').alt = data.offer.title;
     pinElement.querySelector('img').src = data.author.avatar;
@@ -33,19 +33,16 @@
     }
   };
 
-  var renderClickedCard = function (data, evt) {
-    var filterCards = data.filter(function (it) {
-      return it.adId.id === evt.currentTarget.id;
-    });
-    window.renderAdCards(filterCards);
-  };
 
-  var onPinClick = function (data) {
+  var renderClickedCard = function (data) {
     var mapPinCollection = pinList.querySelectorAll('.map__pin');
     for (var i = 0; i < mapPinCollection.length; i++) {
       if (!mapPinCollection[i].classList.contains('map__pin--main')) {
         mapPinCollection[i].addEventListener('click', function (evt) {
-          renderClickedCard(data, evt);
+          var filterCards = data.find(function (item) {
+            return item.id === evt.currentTarget.id;
+          });
+          window.renderAdCards(filterCards);
         });
       }
     }
@@ -60,6 +57,6 @@
       fragment.appendChild(renderMapPin(data[j]));
     }
     pinList.appendChild(fragment);
-    onPinClick(data);
+    renderClickedCard(data);
   };
 })();

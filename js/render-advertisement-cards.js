@@ -11,44 +11,6 @@
 
   var mapFilter = document.querySelector('.map__filters-container');
 
-  window.createAdArray = function (data) {
-    var advertisementArray = [];
-    for (var i = 0; i < data.length; i++) {
-      var advertisement = {
-        adId: {
-          id: 'adNo' + i,
-        },
-
-        author: {
-          avatar: data[i].author.avatar
-        },
-
-        offer: {
-          title: data[i].offer.title,
-          address: data[i].offer.address,
-          price: data[i].offer.price,
-          type: data[i].offer.type,
-          rooms: data[i].offer.rooms,
-          guests: data[i].offer.guests,
-          checkin: data[i].offer.checkin,
-          checkout: data[i].offer.checkout,
-          features: data[i].offer.features,
-          description: data[i].offer.description,
-          photos: data[i].offer.photos
-        },
-
-        location: {
-          x: data[i].location.x,
-          y: data[i].location.y,
-        },
-
-      };
-
-      advertisementArray.push(advertisement);
-    }
-    return advertisementArray;
-  };
-
   window.deleteAdCards = function () {
     var adCards = document.querySelectorAll('.map__card');
     for (var i = 0; i < adCards.length; i++) {
@@ -86,8 +48,6 @@
 
   var renderAdCard = function (data) {
     var cardElement = adCardTemplate.cloneNode(true);
-
-    cardElement.id = data.adId.id;
 
     cardElement.querySelector('.popup__avatar').src = data.author.avatar;
     cardElement.querySelector('.popup__avatar').alt = data.offer.title;
@@ -145,7 +105,7 @@
   window.renderAdCards = function (data) {
     var fragment = document.createDocumentFragment();
     window.deleteAdCards();
-    fragment.appendChild(renderAdCard(data[0]));
+    fragment.appendChild(renderAdCard(data));
     mapFilter.before(fragment);
     document.addEventListener('keydown', onCardEscPress);
     onCloseButtonClick();

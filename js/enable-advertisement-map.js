@@ -64,6 +64,9 @@
 
   var successHandler = function (data) {
     advertisements = data;
+    for (var i = 0; i < advertisements.length; i++) {
+      advertisements[i].id = 'adNo' + i;
+    }
     updateAdvertisements();
   };
 
