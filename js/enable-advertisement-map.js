@@ -67,9 +67,8 @@
     for (var i = 0; i < advertisements.length; i++) {
       advertisements[i].id = 'adNo' + i;
     }
-    updateAdvertisements();
-    window.renderMapPins(data);
   };
+  window.load(successHandler, errorHandler);
 
   var errorHandler = function (errorMessage) {
     var node = document.createElement('div');
@@ -83,11 +82,12 @@
     document.body.insertAdjacentElement('afterbegin', node);
   };
 
-  window.load(successHandler, errorHandler);
-
 
   mainPin.addEventListener('mousedown', function (evt) {
     if (evt.button === 0) {
+      if (map.classList.contains('map--faded')) {
+        window.renderMapPins(advertisements);
+      }
       map.classList.remove('map--faded');
       advertisementForm.classList.remove('ad-form--disabled');
       enableFormElement(advertisementForm);
@@ -95,8 +95,12 @@
     }
   });
 
+
   mainPin.addEventListener('keydown', function (evt) {
     if (evt.keyCode === 13) {
+      if (map.classList.contains('map--faded')) {
+        window.renderMapPins(advertisements);
+      }
       map.classList.remove('map--faded');
       advertisementForm.classList.remove('ad-form--disabled');
       enableFormElement(advertisementForm);
