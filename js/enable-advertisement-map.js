@@ -44,6 +44,7 @@
   var housingType = '';
   var advertisements = [];
 
+
   var updateAdvertisements = function () {
     var sameHousingType = advertisements.filter(function (it) {
       return it.offer.type === housingType;
@@ -60,12 +61,14 @@
     updateAdvertisements();
   });
 
+
   var successHandler = function (data) {
     advertisements = data;
-    updateAdvertisements();
-    window.renderAdCards(data);
-    window.renderMapPins(data);
+    for (var i = 0; i < advertisements.length; i++) {
+      advertisements[i].id = 'adNo' + i;
+    }
   };
+  window.load(successHandler, errorHandler);
 
   var errorHandler = function (errorMessage) {
     var node = document.createElement('div');
@@ -79,23 +82,29 @@
     document.body.insertAdjacentElement('afterbegin', node);
   };
 
+  var renderDefaultPins = function () {
+    if (map.classList.contains('map--faded')) {
+      window.renderMapPins(advertisements);
+    }
+  };
+
+
   mainPin.addEventListener('mousedown', function (evt) {
     if (evt.button === 0) {
+      renderDefaultPins();
       map.classList.remove('map--faded');
       advertisementForm.classList.remove('ad-form--disabled');
-      window.deletePins();
-      window.load(successHandler, errorHandler);
       enableFormElement(advertisementForm);
       enableFormElement(mapFilterForm);
     }
   });
 
+
   mainPin.addEventListener('keydown', function (evt) {
     if (evt.keyCode === 13) {
+      renderDefaultPins();
       map.classList.remove('map--faded');
       advertisementForm.classList.remove('ad-form--disabled');
-      window.deletePins();
-      window.load(successHandler, errorHandler);
       enableFormElement(advertisementForm);
       enableFormElement(mapFilterForm);
     }

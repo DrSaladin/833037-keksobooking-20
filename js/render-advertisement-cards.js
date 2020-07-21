@@ -49,7 +49,6 @@
   var renderAdCard = function (data) {
     var cardElement = adCardTemplate.cloneNode(true);
 
-
     cardElement.querySelector('.popup__avatar').src = data.author.avatar;
     cardElement.querySelector('.popup__avatar').alt = data.offer.title;
 
@@ -92,7 +91,6 @@
       adCardPhotoContainer.appendChild(photoElement);
     }
 
-
     return cardElement;
   };
 
@@ -107,7 +105,7 @@
   window.renderAdCards = function (data) {
     var fragment = document.createDocumentFragment();
     window.deleteAdCards();
-    fragment.appendChild(renderAdCard(data[0]));
+    fragment.appendChild(renderAdCard(data));
     mapFilter.before(fragment);
     document.addEventListener('keydown', onCardEscPress);
     onCloseButtonClick();
