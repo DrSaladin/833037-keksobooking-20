@@ -82,12 +82,16 @@
     document.body.insertAdjacentElement('afterbegin', node);
   };
 
+  var renderDefaultPins = function () {
+    if (map.classList.contains('map--faded')) {
+      window.renderMapPins(advertisements);
+    }
+  };
+
 
   mainPin.addEventListener('mousedown', function (evt) {
     if (evt.button === 0) {
-      if (map.classList.contains('map--faded')) {
-        window.renderMapPins(advertisements);
-      }
+      renderDefaultPins();
       map.classList.remove('map--faded');
       advertisementForm.classList.remove('ad-form--disabled');
       enableFormElement(advertisementForm);
@@ -98,9 +102,7 @@
 
   mainPin.addEventListener('keydown', function (evt) {
     if (evt.keyCode === 13) {
-      if (map.classList.contains('map--faded')) {
-        window.renderMapPins(advertisements);
-      }
+      renderDefaultPins();
       map.classList.remove('map--faded');
       advertisementForm.classList.remove('ad-form--disabled');
       enableFormElement(advertisementForm);
