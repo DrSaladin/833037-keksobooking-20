@@ -68,6 +68,7 @@
       advertisements[i].id = 'adNo' + i;
     }
     updateAdvertisements();
+    window.renderMapPins(data);
   };
 
   var errorHandler = function (errorMessage) {
