@@ -82,12 +82,13 @@
     document.body.insertAdjacentElement('afterbegin', node);
   };
 
+  window.load(successHandler, errorHandler);
+
 
   mainPin.addEventListener('mousedown', function (evt) {
     if (evt.button === 0) {
       map.classList.remove('map--faded');
       advertisementForm.classList.remove('ad-form--disabled');
-      window.load(successHandler, errorHandler);
       enableFormElement(advertisementForm);
       enableFormElement(mapFilterForm);
     }
@@ -97,7 +98,6 @@
     if (evt.keyCode === 13) {
       map.classList.remove('map--faded');
       advertisementForm.classList.remove('ad-form--disabled');
-      window.load(successHandler, errorHandler);
       enableFormElement(advertisementForm);
       enableFormElement(mapFilterForm);
     }

@@ -10,7 +10,7 @@
   var mainPinAddress = document.querySelector('input[name = "address"]');
 
 
-  var mapTopLimit = 100;
+  var mapTopLimit = 130;
   var mapBottomLimit = 130;
   var mapLeftLimit = 0;
 
@@ -21,6 +21,7 @@
     left: mapLeftLimit,
   };
 
+
   if (map.classList.contains('map--faded')) {
     mainPinAddress.value = Math.round(parseInt(mainPin.style.top, 10) + mainPinHeight / 2) + ', ' + Math.round(parseInt(mainPin.style.left, 10) + mainPinWidth / 2);
   }
@@ -28,13 +29,16 @@
   mainPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
+
     var startPoint = {
       x: evt.clientX,
       y: evt.clientY
     };
 
+
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
+
 
       var shift = {
         x: startPoint.x - moveEvt.clientX,
@@ -72,6 +76,7 @@
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
+
 
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
