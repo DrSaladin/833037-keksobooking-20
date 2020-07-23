@@ -1,3 +1,4 @@
+
 'use strict';
 
 (function () {
@@ -67,8 +68,8 @@
     for (var i = 0; i < advertisements.length; i++) {
       advertisements[i].id = 'adNo' + i;
     }
+    window.renderMapPins(advertisements);
   };
-  window.load(successHandler, errorHandler);
 
   var errorHandler = function (errorMessage) {
     var node = document.createElement('div');
@@ -82,33 +83,32 @@
     document.body.insertAdjacentElement('afterbegin', node);
   };
 
-  var renderDefaultPins = function () {
-    if (map.classList.contains('map--faded')) {
-      window.renderMapPins(advertisements);
-    }
+
+  var enableAdMap = function () {
+    map.classList.remove('map--faded');
+    window.load(successHandler, errorHandler);
+    advertisementForm.classList.remove('ad-form--disabled');
+    enableFormElement(advertisementForm);
+    enableFormElement(mapFilterForm);
+    mainPin.removeEventListener('mousedown', window.onAdMapEnableClick);
+    mainPin.removeEventListener('keydown', window.onAdMapEnablePress);
   };
 
 
-  mainPin.addEventListener('mousedown', function (evt) {
+  window.onAdMapEnableClick = function (evt) {
     if (evt.button === 0) {
-      renderDefaultPins();
-      map.classList.remove('map--faded');
-      advertisementForm.classList.remove('ad-form--disabled');
-      enableFormElement(advertisementForm);
-      enableFormElement(mapFilterForm);
+      enableAdMap();
     }
-  });
+  };
 
-
-  mainPin.addEventListener('keydown', function (evt) {
+  window.onAdMapEnablePress = function (evt) {
     if (evt.keyCode === 13) {
-      renderDefaultPins();
-      map.classList.remove('map--faded');
-      advertisementForm.classList.remove('ad-form--disabled');
-      enableFormElement(advertisementForm);
-      enableFormElement(mapFilterForm);
+      enableAdMap();
     }
-  });
+  };
+
+  mainPin.addEventListener('mousedown', window.onAdMapEnableClick);
+  mainPin.addEventListener('keydown', window.onAdMapEnablePress);
 
 
   var disableAdvertisementForm = function () {
@@ -120,5 +120,4 @@
 
 
   disableAdvertisementForm();
-
 })();
