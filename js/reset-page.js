@@ -6,6 +6,8 @@
   var pageAdForm = document.querySelector('.ad-form');
   var mainPin = document.querySelector('.map__pin--main');
 
+  var mainPinAddress = document.querySelector('input[name = "address"]');
+
   var mainPinDefaultCoord = {
     x: 570,
     y: 375,
@@ -21,7 +23,9 @@
   var resetPageForms = function () {
     for (var i = 0; i < pageForms.length; i++) {
       pageForms[i].reset();
-      pageForms[i].setAttribute('disabled', true);
+      for (var j = 0; j < pageForms[i].children.length; j++) {
+        pageForms[i].children[j].setAttribute('disabled', true);
+      }
     }
   };
 
@@ -33,6 +37,7 @@
     resetPageForms();
     map.classList.add('map--faded');
     pageAdForm.classList.add('ad-form--disabled');
+    mainPinAddress.value = mainPinDefaultCoord.x + ', ' + mainPinDefaultCoord.y;
     mainPin.addEventListener('mousedown', window.onAdMapEnableClick);
     mainPin.addEventListener('keydown', window.onAdMapEnablePress);
   };
