@@ -13,12 +13,12 @@
   var sameHousingType = '';
   var filterHousingType = function () {
     var typeHouseElement = document.querySelector('#housing-type');
-    if (typeHouseElement.value !== 'any') {
+    if (typeHouseElement.value === 'any') {
+      sameHousingType = window.advertisements;
+    } else {
       sameHousingType = window.advertisements.filter(function (it) {
         return it.offer.type === typeHouseElement.value;
       });
-    } else {
-      sameHousingType = window.advertisements;
     }
     return sameHousingType;
   };
@@ -66,7 +66,7 @@
 
   var filterGuestsQuantity = function () {
     var typeGuestsElement = document.querySelector('#housing-guests');
-    if (typeGuestsElement.value !== 'any') {
+    if (typeGuestsElement.value === 'any') {
       sameGuestsQuantity = window.advertisements.filter(function (it) {
         return it.offer.guests === +typeGuestsElement.value;
       });
