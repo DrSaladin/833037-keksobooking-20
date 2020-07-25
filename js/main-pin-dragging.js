@@ -36,7 +36,7 @@
     };
 
 
-    var onMouseMove = function (moveEvt) {
+    var onMainPinMove = function (moveEvt) {
       moveEvt.preventDefault();
 
 
@@ -74,15 +74,15 @@
     };
 
 
-    var onMouseUp = function (upEvt) {
+    var onMainPinUp = function (upEvt) {
       upEvt.preventDefault();
 
 
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('mousemove', onMainPinMove);
+      document.removeEventListener('mouseup', onMainPinUp);
     };
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mousemove', onMainPinMove);
+    document.addEventListener('mouseup', onMainPinUp);
   });
 })();
