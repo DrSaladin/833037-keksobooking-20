@@ -38,36 +38,13 @@
     }
   };
 
-
-  var mapFilter = document.querySelector('.map__filters');
-
-  var housingType = '';
-  var advertisements = [];
-
-
-  var updateAdvertisements = function () {
-    var sameHousingType = advertisements.filter(function (it) {
-      return it.offer.type === housingType;
-    });
-
-    window.renderMapPins(sameHousingType);
-  };
-
-
-  var selectHousingType = mapFilter.querySelector('#housing-type');
-  selectHousingType.addEventListener('change', function () {
-    housingType = selectHousingType.value;
-
-    updateAdvertisements();
-  });
-
-
+  window.advertisements = [];
   var successHandler = function (data) {
-    advertisements = data;
-    for (var i = 0; i < advertisements.length; i++) {
-      advertisements[i].id = 'adNo' + i;
+    window.advertisements = data;
+    for (var i = 0; i < window.advertisements.length; i++) {
+      window.advertisements[i].id = 'adNo' + i;
     }
-    window.renderMapPins(advertisements);
+    window.renderMapPins(window.advertisements);
   };
 
   var errorHandler = function (errorMessage) {
