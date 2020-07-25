@@ -76,7 +76,7 @@
 
     var features = cardElement.querySelectorAll('.popup__feature');
     for (var i = 0; i < features.length; i++) {
-      if (features[i].indexOf === data.offer.features[i]) {
+      if (features[i].indexOf !== data.offer.features[i]) {
         features[i].style.backgroundColor = '#ff5635';
       }
     }
