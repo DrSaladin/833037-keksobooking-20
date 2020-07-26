@@ -12,9 +12,8 @@
   window.onSubmitSuccess = function () {
     pageMain.appendChild(successPopupTemplate);
 
-
     successPopupTemplate.addEventListener('click', onSuccessCloseClick);
-    successPopupTemplate.addEventListener('keydown', onSuccessCloseEsc);
+    document.addEventListener('keydown', onSuccessCloseEsc);
   };
 
 
@@ -25,12 +24,18 @@
     document.removeEventListener('click', onSuccessCloseClick);
 
     pageMain.removeChild(popup);
-    window.resetPage();
+    window.onClickResetPage();
   };
 
   var onSuccessCloseEsc = function (evt) {
-    if (evt.keyCode === 27) {
+    if (evt.keyCode === window.utils.ESC_KEY_CODE) {
       closeSuccessPopup();
+    }
+  };
+
+  var onErrorCloseEsc = function (evt) {
+    if (evt.keyCode === window.utils.ESC_KEY_CODE) {
+      closeErrorPopup();
     }
   };
 
@@ -57,15 +62,7 @@
     pageMain.removeChild(popup);
   };
 
-
-  var onErrorCloseEsc = function (evt) {
-    if (evt.keyCode === 27) {
-      closeErrorPopup();
-    }
-  };
-
   var onErrorCloseClick = function () {
     closeErrorPopup();
   };
 })();
-

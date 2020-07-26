@@ -7,7 +7,7 @@
   var mainPinHeight = mainPin.clientHeight;
   var map = document.querySelector('.map');
 
-  var mainPinAddress = document.querySelector('input[name = "address"]');
+  var mainPinAddress = document.querySelector('#address');
 
 
   var mapTopLimit = 130;
@@ -24,9 +24,10 @@
 
   if (map.classList.contains('map--faded')) {
     mainPinAddress.value = Math.round(parseInt(mainPin.style.top, 10) + mainPinHeight / 2) + ', ' + Math.round(parseInt(mainPin.style.left, 10) + mainPinWidth / 2);
+    mainPinAddress.setAttribute('value', mainPinAddress.value);
   }
 
-  mainPin.addEventListener('mousedown', function (evt) {
+  var onClickPinStartMove = function (evt) {
     evt.preventDefault();
 
 
@@ -71,6 +72,7 @@
       }
 
       mainPinAddress.value = Math.round(parseInt(mainPin.style.top, 10) + mainPinHeight) + ', ' + Math.round(parseInt(mainPin.style.left, 10) + mainPinWidth / 2);
+      mainPinAddress.setAttribute('value', mainPinAddress.value);
     };
 
 
@@ -84,5 +86,7 @@
 
     document.addEventListener('mousemove', onMainPinMove);
     document.addEventListener('mouseup', onMainPinUp);
-  });
+  };
+
+  mainPin.addEventListener('mousedown', onClickPinStartMove);
 })();

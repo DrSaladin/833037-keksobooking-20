@@ -30,7 +30,7 @@
   };
 
 
-  window.resetPage = function () {
+  window.onClickResetPage = function () {
     window.deleteAdCards();
     window.deletePins();
     resetMainPin();
@@ -42,5 +42,5 @@
     mainPin.addEventListener('keydown', window.onAdMapEnablePress);
   };
 
-  resetPageButton.addEventListener('click', window.resetPage);
+  resetPageButton.addEventListener('click', window.onClickResetPage);
 })();

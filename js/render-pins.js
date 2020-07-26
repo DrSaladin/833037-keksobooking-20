@@ -9,8 +9,8 @@
     .content
     .querySelector('.map__pin');
 
-  var mainPinAddress = document.querySelector('input[name = "address"]');
-  mainPinAddress.setAttribute('disabled', true);
+  var mainPinAddress = document.querySelector('#address');
+  mainPinAddress.setAttribute('readonly', true);
 
   var renderMapPin = function (data) {
     var pinElement = pinTemplate.cloneNode(true);
@@ -39,13 +39,17 @@
     for (var i = 0; i < mapPinCollection.length; i++) {
       if (!mapPinCollection[i].classList.contains('map__pin--main')) {
         mapPinCollection[i].addEventListener('click', function (evt) {
-          var filterCards = data.find(function (item) {
-            return item.id === evt.currentTarget.id;
-          });
-          window.renderAdCards(filterCards);
+          onClickFilterAdCards(data, evt);
         });
       }
     }
+  };
+
+  var onClickFilterAdCards = function (data, evt) {
+    var filterCards = data.find(function (item) {
+      return item.id === evt.currentTarget.id;
+    });
+    window.renderAdCards(filterCards);
   };
 
 

@@ -72,13 +72,13 @@
 
 
   window.onAdMapEnableClick = function (evt) {
-    if (evt.button === 0) {
+    if (evt.button === window.utils.LEFT_CLICK_CODE) {
       enableAdMap();
     }
   };
 
   window.onAdMapEnablePress = function (evt) {
-    if (evt.keyCode === 13) {
+    if (evt.keyCode === window.utils.ENTER_KEY_CODE) {
       enableAdMap();
     }
   };

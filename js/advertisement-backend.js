@@ -17,21 +17,25 @@
     xhr.responseType = 'json';
     xhr.timeout = TIMEOUT_IN_MS;
 
-    xhr.addEventListener('load', function () {
+    var onLoadShowStatus = function () {
       if (xhr.status === StatusCode.OK) {
         onSuccess(xhr.response);
       } else {
         onError('Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
-    });
+    };
 
-    xhr.addEventListener('error', function () {
+    var onErrorShowStatus = function () {
       onError('Произошла ошибка соединения');
-    });
+    };
 
-    xhr.addEventListener('timeout', function () {
+    var onTimeoutShowStatus = function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
-    });
+    };
+
+    xhr.addEventListener('load', onLoadShowStatus);
+    xhr.addEventListener('error', onErrorShowStatus);
+    xhr.addEventListener('timeout', onTimeoutShowStatus);
 
     return xhr;
   };

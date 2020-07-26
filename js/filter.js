@@ -78,20 +78,20 @@
 
   var compareAdTypes = function (firstArray, secondArray) {
     var originalAds = [];
-    firstArray.forEach(function (e) {
-      if (secondArray.indexOf(e) !== -1) {
-        originalAds.push(e);
+    firstArray.forEach(function (element) {
+      if (secondArray.indexOf(element) !== -1) {
+        originalAds.push(element);
       }
     });
 
     return originalAds;
   };
 
-  var filterAdFeatures = function () {
+  var onClickFilterAdFeatures = function () {
     sameFeatures = [];
-    featureElements.forEach(function (e, i) {
+    featureElements.forEach(function (element, i) {
       if (featureElements[i].checked) {
-        sameFeatures.push(e.value);
+        sameFeatures.push(element.value);
       }
     });
     return sameFeatures;
@@ -99,11 +99,11 @@
 
   var featureElements = document.querySelectorAll('.map__features input');
   var sameFeatures = [];
-  featureElements.forEach(function (e) {
-    e.addEventListener('click', filterAdFeatures);
+  featureElements.forEach(function (element) {
+    element.addEventListener('click', onClickFilterAdFeatures);
   });
 
-  var generalAdFilter = function () {
+  var onInputFinalAdFilter = function () {
     filterHousingType();
     filterHousingPrice();
     filterRoomsQuantity();
@@ -136,10 +136,10 @@
     window.debounce(window.renderMapPins(utilityArray));
   };
 
-  adTypeSelects.forEach(function (e) {
-    e.addEventListener('input', generalAdFilter);
+  adTypeSelects.forEach(function (element) {
+    element.addEventListener('input', onInputFinalAdFilter);
   });
-  featureElements.forEach(function (e) {
-    e.addEventListener('input', generalAdFilter);
+  featureElements.forEach(function (element) {
+    element.addEventListener('input', onInputFinalAdFilter);
   });
 })();

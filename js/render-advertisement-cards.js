@@ -27,7 +27,7 @@
   };
 
   var onCardEscPress = function (evt) {
-    if (evt.keyCode === 27) {
+    if (evt.keyCode === window.utils.ESC_KEY_CODE) {
       closeAdCard();
     }
   };
